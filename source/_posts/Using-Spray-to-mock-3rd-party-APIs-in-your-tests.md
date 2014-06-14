@@ -1,24 +1,25 @@
-title: 'Using Spray to test 3rd party APIs'
+title: 'Using Spray to mock 3rd party APIs in your tests'
 date: 2014-06-14 20:26:44
 tags: ["scala","spray","testing"]
 ---
 
-If you need to test 3rd party API's / a crawler / external web service you want to "mock", and you dont want to use some fancy DI framework (I hate DI frameworks, use constructor DI..) anyway, here's a cool "hack" I put togather to get going
+If you need to test/mock 3rd party API's / a crawler / external web service, and you dont want to use some fancy DI framework (I hate the magic in DI frameworks, I use constructor DI instead..), anyway, here's a helper class I put togather to that end
 
 If you haven't got a chance to try out Spray, you totally should, its a high performance web server built on top of Netty and Akka
 
-Spray has a very nice HTTP API, things I liked:
+Spray has a very nice HTTP API. Few things I liked:
  - HTTP method mapping `spray.http.HttpMethods` - `GET`, `POST` etc.. 
  - `HttpRequest` and `HttpResopnse` are basically wrappers around data you would expect to have in a request and response data
  - `spray.http.Uri` wrapper class around what you would expect to find in the URI
+ - it really is just an Akka `Actor`, with just the right amount of control exposed and the rest well hidden behind its nice APIs
 
-For testing all you really need is: 
+So, for testing/mocking all I really need is: 
 
  - HTTP method
  - URI
  - body(content) 
 
-To get this working I will use some native Spray facilities
+### Here's an implementation of the helper class
 
 ```scala
 import akka.actor._
@@ -76,7 +77,7 @@ object Helpers {
 }
 ```
 
-And now a cocrete client code example to use this tool
+### And now a cocrete client code example to use this tool
 
 ```scala
 // some random content I would like to receive in this scenario (or test..)
