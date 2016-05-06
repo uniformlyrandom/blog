@@ -88,5 +88,6 @@ exclude_generator:
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
   type: git
-  root: /blog
+  root: /
   repo: git@github.com:uniformlyrandom/blog.git
+  branch: master
