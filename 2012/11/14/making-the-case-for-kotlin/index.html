@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Making The Case For Kotlin | Uniformlyrandom</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="The Kotlin project page has this to say about Kotlin: “is a statically typed programming language that compiles to JVM byte codes and JavaScript.” project page
+Kotlin is a very interesting project, I">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Making The Case For Kotlin">
+<meta property="og:url" content="http://uniformlyrandom.com/2012/11/14/making-the-case-for-kotlin/index.html">
+<meta property="og:site_name" content="Uniformlyrandom">
+<meta property="og:description" content="The Kotlin project page has this to say about Kotlin: “is a statically typed programming language that compiles to JVM byte codes and JavaScript.” project page
+Kotlin is a very interesting project, I">
+<meta property="og:updated_time" content="2016-05-05T14:02:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Making The Case For Kotlin">
+<meta name="twitter:description" content="The Kotlin project page has this to say about Kotlin: “is a statically typed programming language that compiles to JVM byte codes and JavaScript.” project page
+Kotlin is a very interesting project, I">
+  
+    <link rel="alternative" href="/atom.xml" title="Uniformlyrandom" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-28741273-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Uniformlyrandom</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://uniformlyrandom.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-making-the-case-for-kotlin" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/11/14/making-the-case-for-kotlin/" class="article-date">
+  <time datetime="2012-11-13T22:00:00.000Z" itemprop="datePublished">Nov 14 2012</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/code/">code</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Making The Case For Kotlin
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>The Kotlin project page has this to say about Kotlin: “is a statically typed programming language that compiles to JVM byte codes and JavaScript.” <a href="http://kotlin.jetbrains.org/" target="_blank" rel="external">project page</a></p>
+<p>Kotlin is a very interesting project, I wanted to check it out, so I decided to write this blog post exploring some design aspects behind Kotlin, and specifically how it compares to the leading JVM “hacker” language - Scala.</p>
+<h2 id="Who-Is-Behind-Kotlin"><a href="#Who-Is-Behind-Kotlin" class="headerlink" title="Who Is Behind Kotlin?"></a>Who Is Behind Kotlin?</h2><p>Even though there are several decent free IDE’s available today (Eclipse, NetBeans, Visual Studio Express..), it (could be) surprising that JetBrains is able to rack in between 199$ for a personal license and up to 699$ for a commercial license (for companies) including 1 year update subscription (I have indeed bought one personal license for my development needs). If you are developing on top of VisualStudio you are (most) probably familiar with the 250$+ plugin ReSharper.</p>
+<p>I would argue that this makes them a good candidate, with insight into good and bad language features, but lets not get ahead of ourselves and set the expectations too high.</p>
+<h2 id="Why-Another-JVM-Language"><a href="#Why-Another-JVM-Language" class="headerlink" title="Why Another JVM Language?"></a>Why Another JVM Language?</h2><p>JVM is a well known platform, its weaknesses and scalability strategies are available and documented well on the web, its being used as classic Java run-time VM and for some other popular languages like Scala, Groovy, Clojure and others. Many modules have been already written in Java, normally JVM run languages are compatible with the existing Java ecosystem. </p>
+<h2 id="Why-Static-Typing"><a href="#Why-Static-Typing" class="headerlink" title="Why Static Typing?"></a>Why Static Typing?</h2><p>In the old (and still ongoing) battle of dynamic and static languages, the consensus is that dynamic languages are faster and easier way to get things done, on the static languages side they allow programmers harness the power of intelligent IDEs to scale up and maintain their code. Type-inferred languages try to find a middle ground approach so that you don’t need to write so much boilerplate code (cue JAVA) to support the static typing, while having the benefits of a full compile time type enforcement.</p>
+<h2 id="Finally-Kotlin-Vs-Scala-Fight"><a href="#Finally-Kotlin-Vs-Scala-Fight" class="headerlink" title="Finally, Kotlin Vs. Scala - Fight!"></a>Finally, Kotlin Vs. Scala - Fight!</h2><p>Scala today is the fastest growing JVM language and is probably competing for the same crowd as Kotlin, Kotlin put up a comparison page <a href="http://confluence.jetbrains.net/display/Kotlin/Comparison+to+Scala" target="_blank" rel="external">link</a> so we will simply go over the omissions part and try to make sense of it.</p>
+<h3 id="OMITTED-Implicit-conversions-parameters"><a href="#OMITTED-Implicit-conversions-parameters" class="headerlink" title="OMITTED - Implicit conversions, parameters"></a>OMITTED - Implicit conversions, parameters</h3><p><em>What is it?</em> Scala implicits is (IMHO) a single biggest weakness in the language, once they are used, along with the ability to boast symbols for syntax, it quickly stops being human readable and more like a DSL. Which requires many trips to the docs or even worse - the source code.</p>
+<p><code>SBT</code> (Scala Build Tool) is the Maven/Ant of the Scala world <a href="http://www.scala-sbt.org/release/docs/Examples/Full-Configuration-Example.html" target="_blank" rel="external">link</a>, its very difficult to get things done with it without many trips to google/documentation</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">lazy</span> <span class="keyword">val</span> pricing = <span class="type">Project</span> (</span><br><span class="line">    <span class="string">"pricing"</span>,</span><br><span class="line">    file (<span class="string">"cdap2-pricing"</span>),</span><br><span class="line">    settings = buildSettings ++ <span class="type">Seq</span> (libraryDependencies ++= pricingDeps)</span><br><span class="line">  ) dependsOn (common, compact, server)</span><br></pre></td></tr></table></figure>
+<p><code>Lift</code> Is a popular web framework, here’s a snippet I took from one of its documentation pages <a href="http://cookbook.liftweb.net/Plain+old+form+processing.html" target="_blank" rel="external">link</a> (see the <code>&quot;#result *&quot; #&gt; x</code> part)</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">render</span> </span>= inputParam <span class="keyword">match</span> &#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="type">Full</span>(x) =&gt; </span><br><span class="line">    println(<span class="string">"Input is: "</span>+x)</span><br><span class="line">    <span class="string">"#result *"</span> #&gt; x</span><br><span class="line">      </span><br><span class="line">  <span class="keyword">case</span> _ =&gt;  </span><br><span class="line">    println(<span class="string">"No input present! Rendering input form HTML"</span>)</span><br><span class="line">    <span class="type">PassThru</span>  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>Thoughts - </em> Indeed for many people this is the part that makes Kotlin a better “scalable” language, by not allowing programmers and libraries hinder the code unreadable without an IDE</p>
+<h3 id="OMITTED-Overridable-Type-Members"><a href="#OMITTED-Overridable-Type-Members" class="headerlink" title="OMITTED - Overridable Type Members"></a>OMITTED - Overridable Type Members</h3><p><em>What is it?</em> Type members in Scala allow you to manage local generic types by assign a type to a class/abstract class/trait member</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">HasTypedMember</span> </span>&#123;</span><br><span class="line">  <span class="class"><span class="keyword">type</span> <span class="title">typeMe</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>An extending class will provide a specific type for this type type member</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExtendingClass</span> <span class="keyword">extends</span> <span class="title">HasTypedMember</span> </span>&#123;</span><br><span class="line">  <span class="class"><span class="keyword">type</span> <span class="title">typeMe</span> </span>= <span class="type">Int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>Thoughts - </em> Frankly, its not really clear why Kotlin decided to omit having typed members, I could be missing something.. Never the less Kotlin usually takes the minimalistic and simplistic route, my guess is that if this is indeed useful, the door is open to add it later..</p>
+<h3 id="OMITTED-Path-dependent-types"><a href="#OMITTED-Path-dependent-types" class="headerlink" title="OMITTED - Path-dependent types"></a>OMITTED - Path-dependent types</h3><p><em>What is it?</em> Pointing to a class under another class in Java would mean a specific type (Parent.Child), well not so in Scala. Scala makes the nested class of two same class instances different, much like you would expect two members of two different instances of a single class. Confused? here is some code to explain this better</p>
+<p>Java:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Outer</span> </span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Inner</span> </span>&#123;&#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">useInner</span><span class="params">(Outer.Inner inner)</span></span>&#123;...&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//.. somewhere in the code</span></span><br><span class="line">o1 = <span class="keyword">new</span> Outer()</span><br><span class="line">o2 = <span class="keyword">new</span> Outer()</span><br><span class="line">i1 = <span class="keyword">new</span> o1.inner()</span><br><span class="line">i2 = <span class="keyword">new</span> o2.inner()</span><br><span class="line"><span class="comment">// this would work fine</span></span><br><span class="line">o1.useInner(i2) <span class="comment">// works</span></span><br><span class="line">o2.useInner(i1) <span class="comment">// works</span></span><br></pre></td></tr></table></figure>
+<p>Scala:<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Outer</span> </span>&#123;</span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Inner</span> </span>&#123;&#125;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">useInner</span></span>(inner : <span class="type">Inner</span>)&#123;...&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//.. somewhere in the code..</span></span><br><span class="line"><span class="keyword">val</span> o1 = <span class="keyword">new</span> <span class="type">Outer</span></span><br><span class="line"><span class="keyword">val</span> o2 = <span class="keyword">new</span> <span class="type">Outer</span></span><br><span class="line"><span class="keyword">val</span> i1 = <span class="keyword">new</span> o1.<span class="type">Inner</span></span><br><span class="line"><span class="keyword">val</span> i2 = <span class="keyword">new</span> o2.<span class="type">Inner</span></span><br><span class="line">o1.useInner(i1) <span class="comment">// works fine</span></span><br><span class="line">o2.useInner(i2) <span class="comment">// works fine</span></span><br><span class="line">o1.useInner(i2) <span class="comment">// THROWS type mismatch exception!</span></span><br></pre></td></tr></table></figure></p>
+<p><em>Thoughts - </em> It makes some sense that the path to a type that can only exist in an instance is enforced as such.. It would be interesting to know why Kotlin decided to implement this feature in a similar way to Java (conservative?)</p>
+<h3 id="OMITTED-Existential-types"><a href="#OMITTED-Existential-types" class="headerlink" title="OMITTED - Existential types"></a>OMITTED - Existential types</h3><p><em>What is it?</em> This is yet another trade-off for Scala to be able to inter-op with Java<br>Let’s see an example:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Create a case class with generic type</span></span><br><span class="line"><span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">Z</span>[<span class="type">T</span>](<span class="params"> blah:<span class="type">T</span> </span>)</span></span><br><span class="line"><span class="comment">// create an instance and cast it to a type created with existential type annotation</span></span><br><span class="line"><span class="type">Seq</span>( <span class="type">Z</span>[<span class="type">Int</span>]( <span class="number">5</span> ), <span class="type">Z</span>[<span class="type">String</span>](<span class="string">"blah"</span>) ) : <span class="type">Seq</span>[<span class="type">Z</span>[<span class="type">X</span>] <span class="keyword">forSome</span> &#123; <span class="class"><span class="keyword">type</span> <span class="title">X</span> <span class="title">&gt;</span></span>: <span class="type">String</span> <span class="keyword">with</span> <span class="type">Int</span> &#125;]</span><br><span class="line">res1 = <span class="type">Seq</span>[<span class="type">Z</span>[_ &gt;: <span class="type">String</span> <span class="keyword">with</span> <span class="type">Int</span>]] = <span class="type">List</span>(<span class="type">Z</span>(<span class="number">5</span>), <span class="type">Z</span>(blah))</span><br></pre></td></tr></table></figure>
+<p><em>Thoughts - </em> Scala supports type variance to describe generic type bounds, Scala designer (Odersky) chose to add existential types support due to three main reasons <a href="http://www.artima.com/scalazine/articles/scalas_type_system.html" target="_blank" rel="external">link</a>: erasure, raw types (lack of generics) and Java’s “wildcard” types.</p>
+<p>Kotlin took the more “purist” approach (also known as reified types) of dropping support for erasure, raw types, wildcard types and finally existential types.</p>
+<h3 id="OMITTED-Complicated-logic-for-initialization-of-traits"><a href="#OMITTED-Complicated-logic-for-initialization-of-traits" class="headerlink" title="OMITTED - Complicated logic for initialization of traits"></a>OMITTED - Complicated logic for initialization of traits</h3><p><em>What is it?</em> Traits are similar to abstract classes, except that you may use several traits on the same class at the same time (like interfaces).</p>
+<p>In Scala, traits are constructed before the extended classes</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Averager</span> </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> first : <span class="type">Int</span></span><br><span class="line">  <span class="keyword">val</span> second : <span class="type">Int</span></span><br><span class="line">  <span class="keyword">val</span> avg : <span class="type">Int</span> = first / second</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// if we were to naively construct a class like so:</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Naive</span> <span class="keyword">extends</span> <span class="title">Averager</span> </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> first = <span class="number">20</span></span><br><span class="line">  <span class="keyword">val</span> second = <span class="number">10</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// create instance</span></span><br><span class="line">&gt; <span class="keyword">new</span> <span class="type">Naive</span>()</span><br><span class="line">java.lang.<span class="type">ArithmeticException</span>: / by zero</span><br><span class="line"><span class="comment">// what happened was that our val "avg" was computed at construction time before seeing the values we put in Naive</span></span><br></pre></td></tr></table></figure>
+<p>Alternatively the trait can be used with a pre-initialized anonymous class <code>val res = new { val first = 20 ; val second = 10 } with Averager</code>, also the val which depends on other vals (avg in our case) can be made “lazy” with the (obvious) lazy keyword <code>lazy val avg : Int = first / second</code>.</p>
+<p>As a side note, using def for “avg” could work, but it would mean evaluating whatever is defined under “avg” every-time this method is called.</p>
+<p><em>Thoughts - </em> Traits in Scala can have state which could be made tricky. If you read this blog post <a href="http://blog.jetbrains.com/kotlin/2011/08/multiple-inheritance-part-2-possible-directions/" target="_blank" rel="external">link</a> you will see Kotlin developers thoughts and a nice insight into what went into designing the inheritance in Kotlin. (don’t forget to read the comments!)</p>
+<h3 id="OMITTED-Custom-symbolic-operations"><a href="#OMITTED-Custom-symbolic-operations" class="headerlink" title="OMITTED - Custom symbolic operations"></a><em>OMITTED</em> - Custom symbolic operations</h3><p><em>What is it?</em> Scala does not have a built in handling of symbols (like =,+,/ etc), they are actually method calls, as you can have symbols used for method names.</p>
+<p><em>Thoughts - </em> This may sound useful at first, but can and (arguably) will create very confusing looking code, like we saw before in the <code>Lift</code> and <code>SBT</code> examples.</p>
+<h3 id="OMITTED-Built-in-XML"><a href="#OMITTED-Built-in-XML" class="headerlink" title="OMITTED - Built-in XML"></a><em>OMITTED</em> - Built-in XML</h3><p><em>What is it?</em> Exactly as it sounds, Scala built in XML native support, so you can do stuff like this</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> holdsXml = &lt;outer&gt;&lt;inner&gt;some text&lt;/inner&gt;&lt;/outer&gt;</span><br></pre></td></tr></table></figure>
+<p><em>Thoughts - </em> Having a built in support for XML as a language feature is interesting, and sometimes useful. An interview <a href="http://www.techworld.com.au/article/397692/a-z_programming_languages_from_pizza_scala/" target="_blank" rel="external">link</a> with Odersky reveals that he would consider removing the native XML support in Scala if had written Scala now.</p>
+<h2 id="Bottom-Line"><a href="#Bottom-Line" class="headerlink" title="Bottom Line"></a>Bottom Line</h2><p>Kotlin is an idiomatic language that draws from the many good features in todays leading languages, specifically from Scala which is a leading language on the JVM platform today. We’ve looked into omissions on Kotlin’s part versus Scala</p>
+<p>I’ve very much enjoyed writing this blog post and learning about the evolution that the design of Java/Scala/Kotlin languages, and the choices the respective authors made along the way.</p>
+<p>To get a better feeling of Kotlin I might pick it up for a small project, at which point I will surely blog about it some more..</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://uniformlyrandom.com/2012/11/14/making-the-case-for-kotlin/" data-id="cinw436c5000fz435y3t677zx" class="article-share-link">Share</a>
+      
+        <a href="http://uniformlyrandom.com/2012/11/14/making-the-case-for-kotlin/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kotlin/">kotlin</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/scala/">scala</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/06/14/Using-Spray-to-mock-3rd-party-APIs-in-your-tests/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Using Spray to mock 3rd party APIs in your tests
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/10/20/distributed-scheduled-queue-with-redis/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Distributed Scheduled Queue With Redis</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/code/">code</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/design/">design</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design/">design</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/distributed/">distributed</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/intellij/">intellij</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kotlin/">kotlin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/queue/">queue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scala/">scala</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spray/">spray</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/testing/">testing</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/design/" style="font-size: 15px;">design</a> <a href="/tags/distributed/" style="font-size: 10px;">distributed</a> <a href="/tags/intellij/" style="font-size: 10px;">intellij</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/kotlin/" style="font-size: 10px;">kotlin</a> <a href="/tags/nodejs/" style="font-size: 15px;">nodejs</a> <a href="/tags/queue/" style="font-size: 10px;">queue</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/scala/" style="font-size: 20px;">scala</a> <a href="/tags/spray/" style="font-size: 10px;">spray</a> <a href="/tags/testing/" style="font-size: 10px;">testing</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/03/">March 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2014/06/14/Using-Spray-to-mock-3rd-party-APIs-in-your-tests/">Using Spray to mock 3rd party APIs in your tests</a>
+          </li>
+        
+          <li>
+            <a href="/2012/11/14/making-the-case-for-kotlin/">Making The Case For Kotlin</a>
+          </li>
+        
+          <li>
+            <a href="/2012/10/20/distributed-scheduled-queue-with-redis/">Distributed Scheduled Queue With Redis</a>
+          </li>
+        
+          <li>
+            <a href="/2012/10/06/using-contractor-with-child-processes/">Using Contractor With Child Processes</a>
+          </li>
+        
+          <li>
+            <a href="/2012/09/22/typing-in-javascript/">Typing in JavaScript?</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Roman Landenband<br>
+      Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'romanskys-blog';
+  
+  var disqus_url = 'http://uniformlyrandom.com/2012/11/14/making-the-case-for-kotlin/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

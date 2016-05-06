@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>User Stories | Uniformlyrandom</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="This post is a follow-up on “Bootstrapping A New Project”
+“User Story” is an important communication tool, it is used between you (the developer) and who ever is making the requirements (the stakehold">
+<meta property="og:type" content="article">
+<meta property="og:title" content="User Stories">
+<meta property="og:url" content="http://uniformlyrandom.com/2012/02/25/user-stories/index.html">
+<meta property="og:site_name" content="Uniformlyrandom">
+<meta property="og:description" content="This post is a follow-up on “Bootstrapping A New Project”
+“User Story” is an important communication tool, it is used between you (the developer) and who ever is making the requirements (the stakehold">
+<meta property="og:updated_time" content="2016-05-05T14:02:11.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="User Stories">
+<meta name="twitter:description" content="This post is a follow-up on “Bootstrapping A New Project”
+“User Story” is an important communication tool, it is used between you (the developer) and who ever is making the requirements (the stakehold">
+  
+    <link rel="alternative" href="/atom.xml" title="Uniformlyrandom" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-28741273-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Uniformlyrandom</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://uniformlyrandom.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-user-stories" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/02/25/user-stories/" class="article-date">
+  <time datetime="2012-02-24T22:00:00.000Z" itemprop="datePublished">Feb 25 2012</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/design/">design</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      User Stories
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>This post is a follow-up on <a href="/code/2012/02/07/bootstrapping-a-new-project/">“Bootstrapping A New Project”</a></p>
+<p>“User Story” is an important communication tool, it is used between you (the developer) and who ever is making the requirements (the stakeholder).<br>A “contract” which (unlike one written by a lawyer) is clear, understood and agreed upon.<br>On our side (development) user stories embody a work unit that can be further broken down and estimated.</p>
+<p>Key value points:</p>
+<ul>
+<li>Language - its key that user stories are written in a language everyone can understand (stakeholders, developers etc..)</li>
+<li>Perspective - user stories need to be written from the perspective of the “feature user”, so they represent real world value</li>
+<li>Estimation - to help you get better and more precise estimation for the project overall</li>
+<li>Prioritization - what needs to be delivered soon/later</li>
+</ul>
+<h4 id="Lets-imagine-we-just-got-a-call-from-the-product-manager-where-he-is-telling-us-about-this-new-survey-tool"><a href="#Lets-imagine-we-just-got-a-call-from-the-product-manager-where-he-is-telling-us-about-this-new-survey-tool" class="headerlink" title="Lets imagine we just got a call from the product manager, where he is telling us about this new survey tool:"></a>Lets imagine we just got a call from the product manager, where he is telling us about this new survey tool:</h4><ol>
+<li>It needs to collect answers from users via a link sent to our users by e-mail</li>
+<li>It needs to be summarized and sent to … once a month on the 1st</li>
+<li>Managers need to be able to see past surveys</li>
+</ol>
+<p>Hmm.. OK, thats pretty clear, but suppose this can be written clearer, lats try using the following template: (not my invention;))<br><code>As a [role], I want [Requirement / Feature], So that [Justigication/ Reason]</code></p>
+<p>The requirements now look like this:</p>
+<ol>
+<li>As an end user, I will be able to follow a link I got via e-mail, so that I can fill a survey and express my opinion</li>
+<li>As a manager,  I will receive an e-mail with a digest of surveys, so that I can evaluate performance</li>
+<li>As a manager, I will be able to access old surveys, so that I can compare and evaluate performance over time</li>
+</ol>
+<p>By reading the above I can clearly understand the required functionality and the <strong>motivation</strong> behind writing it, this gives me a good <strong>starting point</strong>.<br>Since I am the one to implement this, I will need to provide estimates, so that product can plan ahead and communicate the product road map onward.<br>Unfortunately, “The Devil is In The Details” as they say, so giving estimates based on points 1,2,3 is still difficult.<br>Points 2 &amp; 3 are “huge” stories, also known as “epics”, we need to further break down these stories, while still using the same language and practices:</p>
+<ol>
+<li>As an end user, I will receive an email with a link as a result of some communication with a company, so that I can follow it and fill a survey</li>
+<li>As an end user, I get a set of questions to answer, so that my opinion is collected</li>
+<li>As a manager,  I will receive an e-mail with a digest of surveys, so that I can evaluate companies performance</li>
+<li>As a manager, I will have a survey management portal, so that I can overview previous results and compare to</li>
+<li>As a manager, I can select a specific survey, so that I can extract meaningful actionable information</li>
+</ol>
+<p>The functionality expected of deliverables from the points above is clear, and now I feel more comfortable estimating the time it will take me to complete each.<br>Along with the estimation, these can now be prioritized against each other and against other ongoing projects..</p>
+<h3 id="Summery"><a href="#Summery" class="headerlink" title="Summery"></a>Summery</h3><p>The beginning of a new project is the perfect time to introduce user stories, it will help with getting the conversation going, further clarifying the scope and requirements.<br>While the project scope might change, user stories are (optimally) modular, decoupled and encapsulated, this should help with managing changes and their effect on the overall project.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://uniformlyrandom.com/2012/02/25/user-stories/" data-id="cinw436bu000az435874itf07" class="article-share-link">Share</a>
+      
+        <a href="http://uniformlyrandom.com/2012/02/25/user-stories/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/design/">design</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2012/03/07/hld-high-level-design/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          HLD High Level Design
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/02/10/setting-up-intellij-for-android-and-scala/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Setting Up IntelliJ For Android And Scala On Ubuntu</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/code/">code</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/design/">design</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design/">design</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/distributed/">distributed</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/intellij/">intellij</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kotlin/">kotlin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/queue/">queue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scala/">scala</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spray/">spray</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/testing/">testing</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/design/" style="font-size: 15px;">design</a> <a href="/tags/distributed/" style="font-size: 10px;">distributed</a> <a href="/tags/intellij/" style="font-size: 10px;">intellij</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/kotlin/" style="font-size: 10px;">kotlin</a> <a href="/tags/nodejs/" style="font-size: 15px;">nodejs</a> <a href="/tags/queue/" style="font-size: 10px;">queue</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/scala/" style="font-size: 20px;">scala</a> <a href="/tags/spray/" style="font-size: 10px;">spray</a> <a href="/tags/testing/" style="font-size: 10px;">testing</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/03/">March 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2014/06/14/Using-Spray-to-mock-3rd-party-APIs-in-your-tests/">Using Spray to mock 3rd party APIs in your tests</a>
+          </li>
+        
+          <li>
+            <a href="/2012/11/14/making-the-case-for-kotlin/">Making The Case For Kotlin</a>
+          </li>
+        
+          <li>
+            <a href="/2012/10/20/distributed-scheduled-queue-with-redis/">Distributed Scheduled Queue With Redis</a>
+          </li>
+        
+          <li>
+            <a href="/2012/10/06/using-contractor-with-child-processes/">Using Contractor With Child Processes</a>
+          </li>
+        
+          <li>
+            <a href="/2012/09/22/typing-in-javascript/">Typing in JavaScript?</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Roman Landenband<br>
+      Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'romanskys-blog';
+  
+  var disqus_url = 'http://uniformlyrandom.com/2012/02/25/user-stories/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

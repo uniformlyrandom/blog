@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Tag: spray | Uniformlyrandom</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="The land where entropy can not predict the expected stream of random thoughts">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Uniformlyrandom">
+<meta property="og:url" content="http://uniformlyrandom.com/tags/spray/index.html">
+<meta property="og:site_name" content="Uniformlyrandom">
+<meta property="og:description" content="The land where entropy can not predict the expected stream of random thoughts">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Uniformlyrandom">
+<meta name="twitter:description" content="The land where entropy can not predict the expected stream of random thoughts">
+  
+    <link rel="alternative" href="/atom.xml" title="Uniformlyrandom" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-28741273-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Uniformlyrandom</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://uniformlyrandom.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Using-Spray-to-mock-3rd-party-APIs-in-your-tests" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/06/14/Using-Spray-to-mock-3rd-party-APIs-in-your-tests/" class="article-date">
+  <time datetime="2014-06-14T17:26:44.000Z" itemprop="datePublished">Jun 14 2014</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/06/14/Using-Spray-to-mock-3rd-party-APIs-in-your-tests/">Using Spray to mock 3rd party APIs in your tests</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>If you need to test/mock 3rd party API’s / a crawler / external web service, and you dont want to use some fancy DI framework (I hate the magic in DI frameworks, I use constructor DI instead..), anyway, here’s a helper class I put togather to that end</p>
+<p>If you haven’t got a chance to try out Spray, you totally should, its a high performance web server built on top of Netty and Akka</p>
+<p>Spray has a very nice HTTP API. Few things I liked:</p>
+<ul>
+<li>HTTP method mapping <code>spray.http.HttpMethods</code> - <code>GET</code>, <code>POST</code> etc.. </li>
+<li><code>HttpRequest</code> and <code>HttpResopnse</code> are basically wrappers around data you would expect to have in a request and response data</li>
+<li><code>spray.http.Uri</code> wrapper class around what you would expect to find in the URI</li>
+<li>it really is just an Akka <code>Actor</code>, with just the right amount of control exposed and the rest well hidden behind its nice APIs</li>
+</ul>
+<p>So, for testing/mocking all I really need is: </p>
+<ul>
+<li>HTTP method</li>
+<li>URI</li>
+<li>body(content) </li>
+</ul>
+<h3 id="Here’s-an-implementation-of-the-helper-class"><a href="#Here’s-an-implementation-of-the-helper-class" class="headerlink" title="Here’s an implementation of the helper class"></a>Here’s an implementation of the helper class</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> akka.actor._</span><br><span class="line"><span class="keyword">import</span> akka.io.<span class="type">IO</span></span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.atomic.<span class="type">AtomicInteger</span></span><br><span class="line"><span class="keyword">import</span> spray.can.<span class="type">Http</span></span><br><span class="line"><span class="keyword">import</span> spray.http.&#123;<span class="type">Uri</span>, <span class="type">HttpMethod</span>, <span class="type">HttpResponse</span>, <span class="type">HttpRequest</span>&#125;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">Helpers</span> </span>&#123;</span><br><span class="line"> 	</span><br><span class="line">	<span class="keyword">lazy</span> <span class="keyword">implicit</span> <span class="keyword">val</span> testSystem = <span class="type">ActorSystem</span>(<span class="string">"helpers-test-system"</span>)</span><br><span class="line">	<span class="comment">// used to track the last assigned port</span></span><br><span class="line">	<span class="keyword">val</span> lastPort = <span class="keyword">new</span> <span class="type">AtomicInteger</span>(<span class="number">20000</span>)</span><br><span class="line"> 	<span class="comment">// a single expected triplet of method+uri+body</span></span><br><span class="line">	<span class="class"><span class="keyword">type</span> <span class="title">Replay</span> </span>= (<span class="type">HttpMethod</span>,<span class="type">Uri</span>.<span class="type">Path</span>,<span class="type">String</span>)</span><br><span class="line"> </span><br><span class="line">	<span class="comment">// factory method to get a replater to play around with</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">webReplayer</span></span>(replay : <span class="type">List</span>[<span class="type">Replay</span>]) : (<span class="type">ActorRef</span>,<span class="type">Int</span>) = &#123;</span><br><span class="line">		<span class="comment">// everytime the factory is used a new port is assigned, </span></span><br><span class="line">		<span class="comment">// so many instances can co-exist and tests can run in parallel without getting</span></span><br><span class="line">		<span class="comment">// on eachother's toes</span></span><br><span class="line">		<span class="keyword">val</span> newPort = lastPort.addAndGet(<span class="number">1</span>)</span><br><span class="line">		<span class="comment">// instantiate a new Spray server. Yes, its that simple!</span></span><br><span class="line">		<span class="keyword">val</span> newServer = testSystem.actorOf(<span class="type">Props</span>(<span class="keyword">new</span> <span class="type">Helpers</span>.<span class="type">ReplayerActor</span>(replay)))</span><br><span class="line">		<span class="type">IO</span>(<span class="type">Http</span>) ! <span class="type">Http</span>.<span class="type">Bind</span>(newServer, interface = <span class="string">"127.0.0.1"</span>, port = newPort)</span><br><span class="line">		<span class="comment">// return a pair of the server instance and the assigned port</span></span><br><span class="line">		<span class="comment">// the newPort should be used by client code to construct the remote URI with</span></span><br><span class="line">		(newServer,newPort)</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	<span class="comment">// object to use to tell the server to shutdown..</span></span><br><span class="line">	<span class="class"><span class="keyword">object</span> <span class="title">ShutTestServer</span></span></span><br><span class="line"> </span><br><span class="line">	<span class="comment">// a concrete implementation for a Spray Actor to listen to incoming HttpRequest(..) messages</span></span><br><span class="line">	<span class="comment">// provided a list of messages to be matched against arrived and content to be sent back</span></span><br><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">ReplayerActor</span>(<span class="params">var replay :<span class="type">List</span>[<span class="type">Replay</span>]</span>) <span class="keyword">extends</span> <span class="title">Actor</span> </span>&#123;</span><br><span class="line">		<span class="keyword">var</span> ioServer : <span class="type">ActorRef</span> = <span class="literal">null</span></span><br><span class="line">		<span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">receive</span></span>: <span class="type">Receive</span> = &#123;</span><br><span class="line">			<span class="keyword">case</span> _ : <span class="type">Http</span>.<span class="type">Connected</span> =&gt;</span><br><span class="line">				sender ! <span class="type">Http</span>.<span class="type">Register</span>(self)</span><br><span class="line">				ioServer = sender()</span><br><span class="line">			<span class="comment">// this is basically a "catch all" HttpRequest pattern</span></span><br><span class="line">			<span class="keyword">case</span> <span class="type">HttpRequest</span>(method, uri,_,_,_) =&gt;</span><br><span class="line">				<span class="comment">// a test to see that this is indeed expected to happen at this point</span></span><br><span class="line">				<span class="keyword">if</span> (!replay.isEmpty &amp;&amp; replay.head._1 == method &amp;&amp; uri.path == replay.head._2)&#123;</span><br><span class="line">					sender ! <span class="type">HttpResponse</span>(entity = replay.head._3)</span><br><span class="line">					replay = replay.tail</span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					sender ! <span class="type">HttpResponse</span>(status = <span class="number">400</span>, entity = <span class="string">"was expecting a different request at this point"</span>)</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">case</span> <span class="type">ShutTestServer</span> =&gt; ioServer ! <span class="type">PoisonPill</span></span><br><span class="line">			<span class="keyword">case</span> _ =&gt; <span class="comment">//ignore</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="And-now-a-cocrete-client-code-example-to-use-this-tool"><a href="#And-now-a-cocrete-client-code-example-to-use-this-tool" class="headerlink" title="And now a cocrete client code example to use this tool"></a>And now a cocrete client code example to use this tool</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">// some random content I would like to receive in this scenario (or test..)</span><br><span class="line">val content =</span><br><span class="line">s"""</span><br><span class="line">  |&lt;html&gt;</span><br><span class="line">  |&lt;head&gt;</span><br><span class="line">  |&lt;title&gt;sometitle&lt;/title&gt;</span><br><span class="line">  |&lt;/head&gt;</span><br><span class="line">  |&lt;body&gt;some body&lt;/body&gt;</span><br><span class="line">  |&lt;/html&gt;</span><br><span class="line">""".stripMargin</span><br><span class="line"> </span><br><span class="line">// we use the factory method to get an instance of "replayer" to play around with</span><br><span class="line">val (_testWebServer,port) = Helpers.webReplayer(</span><br><span class="line">	List(</span><br><span class="line">		(GET,Uri.Path("/somesite"),content)</span><br><span class="line">	)</span><br><span class="line">)</span><br><span class="line"> </span><br><span class="line">// and where ever in your actual code, use the port we got back above and have it "hit" the server</span><br><span class="line">val whatEver = YourHTTPGetter.fetch(s"http://127.0.0.1:$port/somesite")</span><br><span class="line">assert(whatEver == content)</span><br></pre></td></tr></table></figure>
+<p>Profit!</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://uniformlyrandom.com/2014/06/14/Using-Spray-to-mock-3rd-party-APIs-in-your-tests/" data-id="cinw436b60000z435idrnm6v8" class="article-share-link">Share</a>
+      
+        <a href="http://uniformlyrandom.com/2014/06/14/Using-Spray-to-mock-3rd-party-APIs-in-your-tests/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/scala/">scala</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spray/">spray</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/testing/">testing</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+  
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/code/">code</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/design/">design</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design/">design</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/distributed/">distributed</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/intellij/">intellij</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kotlin/">kotlin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/queue/">queue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scala/">scala</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spray/">spray</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/testing/">testing</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/design/" style="font-size: 15px;">design</a> <a href="/tags/distributed/" style="font-size: 10px;">distributed</a> <a href="/tags/intellij/" style="font-size: 10px;">intellij</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/kotlin/" style="font-size: 10px;">kotlin</a> <a href="/tags/nodejs/" style="font-size: 15px;">nodejs</a> <a href="/tags/queue/" style="font-size: 10px;">queue</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/scala/" style="font-size: 20px;">scala</a> <a href="/tags/spray/" style="font-size: 10px;">spray</a> <a href="/tags/testing/" style="font-size: 10px;">testing</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/03/">March 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2014/06/14/Using-Spray-to-mock-3rd-party-APIs-in-your-tests/">Using Spray to mock 3rd party APIs in your tests</a>
+          </li>
+        
+          <li>
+            <a href="/2012/11/14/making-the-case-for-kotlin/">Making The Case For Kotlin</a>
+          </li>
+        
+          <li>
+            <a href="/2012/10/20/distributed-scheduled-queue-with-redis/">Distributed Scheduled Queue With Redis</a>
+          </li>
+        
+          <li>
+            <a href="/2012/10/06/using-contractor-with-child-processes/">Using Contractor With Child Processes</a>
+          </li>
+        
+          <li>
+            <a href="/2012/09/22/typing-in-javascript/">Typing in JavaScript?</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Roman Landenband<br>
+      Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'romanskys-blog';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

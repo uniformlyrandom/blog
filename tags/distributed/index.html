@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Tag: distributed | Uniformlyrandom</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="The land where entropy can not predict the expected stream of random thoughts">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Uniformlyrandom">
+<meta property="og:url" content="http://uniformlyrandom.com/tags/distributed/index.html">
+<meta property="og:site_name" content="Uniformlyrandom">
+<meta property="og:description" content="The land where entropy can not predict the expected stream of random thoughts">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Uniformlyrandom">
+<meta name="twitter:description" content="The land where entropy can not predict the expected stream of random thoughts">
+  
+    <link rel="alternative" href="/atom.xml" title="Uniformlyrandom" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-28741273-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Uniformlyrandom</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://uniformlyrandom.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-distributed-scheduled-queue-with-redis" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/10/20/distributed-scheduled-queue-with-redis/" class="article-date">
+  <time datetime="2012-10-19T22:00:00.000Z" itemprop="datePublished">Oct 20 2012</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/10/20/distributed-scheduled-queue-with-redis/">Distributed Scheduled Queue With Redis</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Unlike the classic FIFO queue, jobs are scheduled for execution in the future, possibly on a specific day, week, month year.. similar to “cron” in a Unix OS. Unlike the normal Unix “cron” implementation, we want it to be distributed, so that several machines(workers) can query and then execute these jobs.</p>
+<h3 id="Implementing"><a href="#Implementing" class="headerlink" title="Implementing"></a>Implementing</h3><ul>
+<li><em>Planning</em> - The standart Unix cron format is very flexible and has been time tested for describing schedules</li>
+<li><em>Managing/Coordinating</em> - The queues are stored in Redis Sorted Sets, Lua will be used for atomic execution</li>
+<li><em>Execution</em> - Getting the pieces together</li>
+</ul>
+<h4 id="Planning"><a href="#Planning" class="headerlink" title="Planning"></a>Planning</h4><p>“Unix Time” format, is the number of milliseconds since (<em>UTC</em>) 1 January 1970<br>Example (* the actual unix time number is in UTC, while the formatted date is localized)</p>
+<pre><code>1350745504313 == Sat Oct 20 2012 17:05:04 GMT+0200 (IST)
+</code></pre><p>Using this format will make it possible to slice the queue with specific point in time in mind.</p>
+<h4 id="Managing-Coordinating"><a href="#Managing-Coordinating" class="headerlink" title="Managing/Coordinating"></a>Managing/Coordinating</h4><p>Redis’st will be holding the job IDs as members scored by their corresponding execution times(in unix time format). <br></p>
+<p><img src="https://docs.google.com/drawings/pub?id=1Sc9DY0Ne4YZZeC8-R2WCTAQaJvnbM3pnpDPtQpSpEUU&amp;w=960&amp;h=359"></p>
+<p>Redis commands that will come in handy</p>
+<ul>
+<li>Scheduling job run: <em>ZADD cron:queue 1350745504313 1000</em></li>
+<li>Finding a job to run: <em>ZRANGEBYSCORE cron:queue 1350745504314 LIMIT 0 1</em></li>
+</ul>
+<h4 id="Execution"><a href="#Execution" class="headerlink" title="Execution"></a>Execution</h4><p>Without going into any platform specific implementation details, this is what the process looks like</p>
+<ol>
+<li>When a new schedule is added, jobs are created for upcoming execution times, which are calculated for the next two hours and added to our cron queue</li>
+<li>A special job is added to be run every hour, it will run over all the schedules, calculate and add their execution time to the scheduled queue, two hours into the future</li>
+<li>Workers will be polling the database every second to find jobs</li>
+<li>Once an entry comes up, it is removed from the queue and added to another Sorted Set queue, so we dont “forget” any jobs..</li>
+</ol>
+<p>As for items 3 and 4 above, it is not possible to implement this logic in the client, because for example when we find a job that needs to be executed, another worker might grab it, or worse they both “grabbed” it and are now working on the same job. To work around this, we need to write a little Lua script, since Lua scripts are executed serially, just like any other Redis command</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> currentTimeMS = KEYS[<span class="number">1</span>]</span><br><span class="line"><span class="keyword">local</span> workingQueue = <span class="string">"scheduler:working"</span></span><br><span class="line"><span class="keyword">local</span> scheduleQueue = <span class="string">"schedule"</span></span><br><span class="line"><span class="comment">-- for easier reading, epoch time is in milliseconds</span></span><br><span class="line"><span class="keyword">local</span> second = <span class="number">1000</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">foundJob</span><span class="params">(jobID)</span></span></span><br><span class="line">	<span class="comment">-- implement removing the job from all other queues</span></span><br><span class="line">	<span class="comment">-- implement updating job status where the actual job object is stored</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">findNextJob</span><span class="params">()</span></span></span><br><span class="line">	<span class="keyword">local</span> result</span><br><span class="line">	<span class="comment">-- check if there are any "stale" jobs</span></span><br><span class="line">	result = redis.call( <span class="string">'ZRANGEBYSCORE'</span>, workingQueue, <span class="number">0</span>, currentTimeMS<span class="number">-60</span>*second, <span class="string">'LIMIT'</span>,<span class="number">0</span>,<span class="number">1</span> )</span><br><span class="line">	<span class="keyword">if</span> result[<span class="number">1</span>] ~= <span class="keyword">nil</span> <span class="keyword">then</span> <span class="keyword">return</span> foundJob(result[<span class="number">1</span>]) <span class="keyword">end</span></span><br><span class="line">	<span class="comment">-- check the normal queue</span></span><br><span class="line">	result = redis.call( <span class="string">'ZRANGEBYSCORE'</span>, scheduleQueue, <span class="number">0</span>, currentTimeMS, <span class="string">'LIMIT'</span>,<span class="number">0</span>,<span class="number">1</span> )</span><br><span class="line">	<span class="keyword">if</span> result[<span class="number">1</span>] ~= <span class="keyword">nil</span> <span class="keyword">then</span> <span class="keyword">return</span> foundJob(result[<span class="number">1</span>]) <span class="keyword">end</span></span><br><span class="line">	<span class="comment">-- if we didnt find anything return nil</span></span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">nil</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> findNextJob()</span><br></pre></td></tr></table></figure>
+<p>And there you have it! a “Distributed scheduled queue” implemented on top of Redis.</p>
+<p>If you are going to implement this with node, I created a little cron format parser you can find here:<br><a href="https://github.com/romansky/JsCron" target="_blank" rel="external">JSCron</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://uniformlyrandom.com/2012/10/20/distributed-scheduled-queue-with-redis/" data-id="cinw436bk0003z435q3j8x9ub" class="article-share-link">Share</a>
+      
+        <a href="http://uniformlyrandom.com/2012/10/20/distributed-scheduled-queue-with-redis/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/distributed/">distributed</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/queue/">queue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/">redis</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+  
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/code/">code</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/design/">design</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design/">design</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/distributed/">distributed</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/intellij/">intellij</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kotlin/">kotlin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/queue/">queue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scala/">scala</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spray/">spray</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/testing/">testing</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/design/" style="font-size: 15px;">design</a> <a href="/tags/distributed/" style="font-size: 10px;">distributed</a> <a href="/tags/intellij/" style="font-size: 10px;">intellij</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/kotlin/" style="font-size: 10px;">kotlin</a> <a href="/tags/nodejs/" style="font-size: 15px;">nodejs</a> <a href="/tags/queue/" style="font-size: 10px;">queue</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/scala/" style="font-size: 20px;">scala</a> <a href="/tags/spray/" style="font-size: 10px;">spray</a> <a href="/tags/testing/" style="font-size: 10px;">testing</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/03/">March 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2014/06/14/Using-Spray-to-mock-3rd-party-APIs-in-your-tests/">Using Spray to mock 3rd party APIs in your tests</a>
+          </li>
+        
+          <li>
+            <a href="/2012/11/14/making-the-case-for-kotlin/">Making The Case For Kotlin</a>
+          </li>
+        
+          <li>
+            <a href="/2012/10/20/distributed-scheduled-queue-with-redis/">Distributed Scheduled Queue With Redis</a>
+          </li>
+        
+          <li>
+            <a href="/2012/10/06/using-contractor-with-child-processes/">Using Contractor With Child Processes</a>
+          </li>
+        
+          <li>
+            <a href="/2012/09/22/typing-in-javascript/">Typing in JavaScript?</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Roman Landenband<br>
+      Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'romanskys-blog';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>

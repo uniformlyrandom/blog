@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Archives | Uniformlyrandom</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="The land where entropy can not predict the expected stream of random thoughts">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Uniformlyrandom">
+<meta property="og:url" content="http://uniformlyrandom.com/archives/index.html">
+<meta property="og:site_name" content="Uniformlyrandom">
+<meta property="og:description" content="The land where entropy can not predict the expected stream of random thoughts">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Uniformlyrandom">
+<meta name="twitter:description" content="The land where entropy can not predict the expected stream of random thoughts">
+  
+    <link rel="alternative" href="/atom.xml" title="Uniformlyrandom" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-28741273-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Uniformlyrandom</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://uniformlyrandom.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Using-Spray-to-mock-3rd-party-APIs-in-your-tests" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/06/14/Using-Spray-to-mock-3rd-party-APIs-in-your-tests/" class="article-date">
+  <time datetime="2014-06-14T17:26:44.000Z" itemprop="datePublished">Jun 14 2014</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/06/14/Using-Spray-to-mock-3rd-party-APIs-in-your-tests/">Using Spray to mock 3rd party APIs in your tests</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>If you need to test/mock 3rd party API’s / a crawler / external web service, and you dont want to use some fancy DI framework (I hate the magic in DI frameworks, I use constructor DI instead..), anyway, here’s a helper class I put togather to that end</p>
+<p>If you haven’t got a chance to try out Spray, you totally should, its a high performance web server built on top of Netty and Akka</p>
+<p>Spray has a very nice HTTP API. Few things I liked:</p>
+<ul>
+<li>HTTP method mapping <code>spray.http.HttpMethods</code> - <code>GET</code>, <code>POST</code> etc.. </li>
+<li><code>HttpRequest</code> and <code>HttpResopnse</code> are basically wrappers around data you would expect to have in a request and response data</li>
+<li><code>spray.http.Uri</code> wrapper class around what you would expect to find in the URI</li>
+<li>it really is just an Akka <code>Actor</code>, with just the right amount of control exposed and the rest well hidden behind its nice APIs</li>
+</ul>
+<p>So, for testing/mocking all I really need is: </p>
+<ul>
+<li>HTTP method</li>
+<li>URI</li>
+<li>body(content) </li>
+</ul>
+<h3 id="Here’s-an-implementation-of-the-helper-class"><a href="#Here’s-an-implementation-of-the-helper-class" class="headerlink" title="Here’s an implementation of the helper class"></a>Here’s an implementation of the helper class</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> akka.actor._</span><br><span class="line"><span class="keyword">import</span> akka.io.<span class="type">IO</span></span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.atomic.<span class="type">AtomicInteger</span></span><br><span class="line"><span class="keyword">import</span> spray.can.<span class="type">Http</span></span><br><span class="line"><span class="keyword">import</span> spray.http.&#123;<span class="type">Uri</span>, <span class="type">HttpMethod</span>, <span class="type">HttpResponse</span>, <span class="type">HttpRequest</span>&#125;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">Helpers</span> </span>&#123;</span><br><span class="line"> 	</span><br><span class="line">	<span class="keyword">lazy</span> <span class="keyword">implicit</span> <span class="keyword">val</span> testSystem = <span class="type">ActorSystem</span>(<span class="string">"helpers-test-system"</span>)</span><br><span class="line">	<span class="comment">// used to track the last assigned port</span></span><br><span class="line">	<span class="keyword">val</span> lastPort = <span class="keyword">new</span> <span class="type">AtomicInteger</span>(<span class="number">20000</span>)</span><br><span class="line"> 	<span class="comment">// a single expected triplet of method+uri+body</span></span><br><span class="line">	<span class="class"><span class="keyword">type</span> <span class="title">Replay</span> </span>= (<span class="type">HttpMethod</span>,<span class="type">Uri</span>.<span class="type">Path</span>,<span class="type">String</span>)</span><br><span class="line"> </span><br><span class="line">	<span class="comment">// factory method to get a replater to play around with</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">webReplayer</span></span>(replay : <span class="type">List</span>[<span class="type">Replay</span>]) : (<span class="type">ActorRef</span>,<span class="type">Int</span>) = &#123;</span><br><span class="line">		<span class="comment">// everytime the factory is used a new port is assigned, </span></span><br><span class="line">		<span class="comment">// so many instances can co-exist and tests can run in parallel without getting</span></span><br><span class="line">		<span class="comment">// on eachother's toes</span></span><br><span class="line">		<span class="keyword">val</span> newPort = lastPort.addAndGet(<span class="number">1</span>)</span><br><span class="line">		<span class="comment">// instantiate a new Spray server. Yes, its that simple!</span></span><br><span class="line">		<span class="keyword">val</span> newServer = testSystem.actorOf(<span class="type">Props</span>(<span class="keyword">new</span> <span class="type">Helpers</span>.<span class="type">ReplayerActor</span>(replay)))</span><br><span class="line">		<span class="type">IO</span>(<span class="type">Http</span>) ! <span class="type">Http</span>.<span class="type">Bind</span>(newServer, interface = <span class="string">"127.0.0.1"</span>, port = newPort)</span><br><span class="line">		<span class="comment">// return a pair of the server instance and the assigned port</span></span><br><span class="line">		<span class="comment">// the newPort should be used by client code to construct the remote URI with</span></span><br><span class="line">		(newServer,newPort)</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	<span class="comment">// object to use to tell the server to shutdown..</span></span><br><span class="line">	<span class="class"><span class="keyword">object</span> <span class="title">ShutTestServer</span></span></span><br><span class="line"> </span><br><span class="line">	<span class="comment">// a concrete implementation for a Spray Actor to listen to incoming HttpRequest(..) messages</span></span><br><span class="line">	<span class="comment">// provided a list of messages to be matched against arrived and content to be sent back</span></span><br><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">ReplayerActor</span>(<span class="params">var replay :<span class="type">List</span>[<span class="type">Replay</span>]</span>) <span class="keyword">extends</span> <span class="title">Actor</span> </span>&#123;</span><br><span class="line">		<span class="keyword">var</span> ioServer : <span class="type">ActorRef</span> = <span class="literal">null</span></span><br><span class="line">		<span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">receive</span></span>: <span class="type">Receive</span> = &#123;</span><br><span class="line">			<span class="keyword">case</span> _ : <span class="type">Http</span>.<span class="type">Connected</span> =&gt;</span><br><span class="line">				sender ! <span class="type">Http</span>.<span class="type">Register</span>(self)</span><br><span class="line">				ioServer = sender()</span><br><span class="line">			<span class="comment">// this is basically a "catch all" HttpRequest pattern</span></span><br><span class="line">			<span class="keyword">case</span> <span class="type">HttpRequest</span>(method, uri,_,_,_) =&gt;</span><br><span class="line">				<span class="comment">// a test to see that this is indeed expected to happen at this point</span></span><br><span class="line">				<span class="keyword">if</span> (!replay.isEmpty &amp;&amp; replay.head._1 == method &amp;&amp; uri.path == replay.head._2)&#123;</span><br><span class="line">					sender ! <span class="type">HttpResponse</span>(entity = replay.head._3)</span><br><span class="line">					replay = replay.tail</span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					sender ! <span class="type">HttpResponse</span>(status = <span class="number">400</span>, entity = <span class="string">"was expecting a different request at this point"</span>)</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">case</span> <span class="type">ShutTestServer</span> =&gt; ioServer ! <span class="type">PoisonPill</span></span><br><span class="line">			<span class="keyword">case</span> _ =&gt; <span class="comment">//ignore</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="And-now-a-cocrete-client-code-example-to-use-this-tool"><a href="#And-now-a-cocrete-client-code-example-to-use-this-tool" class="headerlink" title="And now a cocrete client code example to use this tool"></a>And now a cocrete client code example to use this tool</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">// some random content I would like to receive in this scenario (or test..)</span><br><span class="line">val content =</span><br><span class="line">s"""</span><br><span class="line">  |&lt;html&gt;</span><br><span class="line">  |&lt;head&gt;</span><br><span class="line">  |&lt;title&gt;sometitle&lt;/title&gt;</span><br><span class="line">  |&lt;/head&gt;</span><br><span class="line">  |&lt;body&gt;some body&lt;/body&gt;</span><br><span class="line">  |&lt;/html&gt;</span><br><span class="line">""".stripMargin</span><br><span class="line"> </span><br><span class="line">// we use the factory method to get an instance of "replayer" to play around with</span><br><span class="line">val (_testWebServer,port) = Helpers.webReplayer(</span><br><span class="line">	List(</span><br><span class="line">		(GET,Uri.Path("/somesite"),content)</span><br><span class="line">	)</span><br><span class="line">)</span><br><span class="line"> </span><br><span class="line">// and where ever in your actual code, use the port we got back above and have it "hit" the server</span><br><span class="line">val whatEver = YourHTTPGetter.fetch(s"http://127.0.0.1:$port/somesite")</span><br><span class="line">assert(whatEver == content)</span><br></pre></td></tr></table></figure>
+<p>Profit!</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://uniformlyrandom.com/2014/06/14/Using-Spray-to-mock-3rd-party-APIs-in-your-tests/" data-id="cinw436b60000z435idrnm6v8" class="article-share-link">Share</a>
+      
+        <a href="http://uniformlyrandom.com/2014/06/14/Using-Spray-to-mock-3rd-party-APIs-in-your-tests/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/scala/">scala</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spray/">spray</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/testing/">testing</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-making-the-case-for-kotlin" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/11/14/making-the-case-for-kotlin/" class="article-date">
+  <time datetime="2012-11-13T22:00:00.000Z" itemprop="datePublished">Nov 14 2012</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/code/">code</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/11/14/making-the-case-for-kotlin/">Making The Case For Kotlin</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>The Kotlin project page has this to say about Kotlin: “is a statically typed programming language that compiles to JVM byte codes and JavaScript.” <a href="http://kotlin.jetbrains.org/" target="_blank" rel="external">project page</a></p>
+<p>Kotlin is a very interesting project, I wanted to check it out, so I decided to write this blog post exploring some design aspects behind Kotlin, and specifically how it compares to the leading JVM “hacker” language - Scala.</p>
+<h2 id="Who-Is-Behind-Kotlin"><a href="#Who-Is-Behind-Kotlin" class="headerlink" title="Who Is Behind Kotlin?"></a>Who Is Behind Kotlin?</h2><p>Even though there are several decent free IDE’s available today (Eclipse, NetBeans, Visual Studio Express..), it (could be) surprising that JetBrains is able to rack in between 199$ for a personal license and up to 699$ for a commercial license (for companies) including 1 year update subscription (I have indeed bought one personal license for my development needs). If you are developing on top of VisualStudio you are (most) probably familiar with the 250$+ plugin ReSharper.</p>
+<p>I would argue that this makes them a good candidate, with insight into good and bad language features, but lets not get ahead of ourselves and set the expectations too high.</p>
+<h2 id="Why-Another-JVM-Language"><a href="#Why-Another-JVM-Language" class="headerlink" title="Why Another JVM Language?"></a>Why Another JVM Language?</h2><p>JVM is a well known platform, its weaknesses and scalability strategies are available and documented well on the web, its being used as classic Java run-time VM and for some other popular languages like Scala, Groovy, Clojure and others. Many modules have been already written in Java, normally JVM run languages are compatible with the existing Java ecosystem. </p>
+<h2 id="Why-Static-Typing"><a href="#Why-Static-Typing" class="headerlink" title="Why Static Typing?"></a>Why Static Typing?</h2><p>In the old (and still ongoing) battle of dynamic and static languages, the consensus is that dynamic languages are faster and easier way to get things done, on the static languages side they allow programmers harness the power of intelligent IDEs to scale up and maintain their code. Type-inferred languages try to find a middle ground approach so that you don’t need to write so much boilerplate code (cue JAVA) to support the static typing, while having the benefits of a full compile time type enforcement.</p>
+<h2 id="Finally-Kotlin-Vs-Scala-Fight"><a href="#Finally-Kotlin-Vs-Scala-Fight" class="headerlink" title="Finally, Kotlin Vs. Scala - Fight!"></a>Finally, Kotlin Vs. Scala - Fight!</h2><p>Scala today is the fastest growing JVM language and is probably competing for the same crowd as Kotlin, Kotlin put up a comparison page <a href="http://confluence.jetbrains.net/display/Kotlin/Comparison+to+Scala" target="_blank" rel="external">link</a> so we will simply go over the omissions part and try to make sense of it.</p>
+<h3 id="OMITTED-Implicit-conversions-parameters"><a href="#OMITTED-Implicit-conversions-parameters" class="headerlink" title="OMITTED - Implicit conversions, parameters"></a>OMITTED - Implicit conversions, parameters</h3><p><em>What is it?</em> Scala implicits is (IMHO) a single biggest weakness in the language, once they are used, along with the ability to boast symbols for syntax, it quickly stops being human readable and more like a DSL. Which requires many trips to the docs or even worse - the source code.</p>
+<p><code>SBT</code> (Scala Build Tool) is the Maven/Ant of the Scala world <a href="http://www.scala-sbt.org/release/docs/Examples/Full-Configuration-Example.html" target="_blank" rel="external">link</a>, its very difficult to get things done with it without many trips to google/documentation</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">lazy</span> <span class="keyword">val</span> pricing = <span class="type">Project</span> (</span><br><span class="line">    <span class="string">"pricing"</span>,</span><br><span class="line">    file (<span class="string">"cdap2-pricing"</span>),</span><br><span class="line">    settings = buildSettings ++ <span class="type">Seq</span> (libraryDependencies ++= pricingDeps)</span><br><span class="line">  ) dependsOn (common, compact, server)</span><br></pre></td></tr></table></figure>
+<p><code>Lift</code> Is a popular web framework, here’s a snippet I took from one of its documentation pages <a href="http://cookbook.liftweb.net/Plain+old+form+processing.html" target="_blank" rel="external">link</a> (see the <code>&quot;#result *&quot; #&gt; x</code> part)</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">render</span> </span>= inputParam <span class="keyword">match</span> &#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="type">Full</span>(x) =&gt; </span><br><span class="line">    println(<span class="string">"Input is: "</span>+x)</span><br><span class="line">    <span class="string">"#result *"</span> #&gt; x</span><br><span class="line">      </span><br><span class="line">  <span class="keyword">case</span> _ =&gt;  </span><br><span class="line">    println(<span class="string">"No input present! Rendering input form HTML"</span>)</span><br><span class="line">    <span class="type">PassThru</span>  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>Thoughts - </em> Indeed for many people this is the part that makes Kotlin a better “scalable” language, by not allowing programmers and libraries hinder the code unreadable without an IDE</p>
+<h3 id="OMITTED-Overridable-Type-Members"><a href="#OMITTED-Overridable-Type-Members" class="headerlink" title="OMITTED - Overridable Type Members"></a>OMITTED - Overridable Type Members</h3><p><em>What is it?</em> Type members in Scala allow you to manage local generic types by assign a type to a class/abstract class/trait member</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">HasTypedMember</span> </span>&#123;</span><br><span class="line">  <span class="class"><span class="keyword">type</span> <span class="title">typeMe</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>An extending class will provide a specific type for this type type member</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ExtendingClass</span> <span class="keyword">extends</span> <span class="title">HasTypedMember</span> </span>&#123;</span><br><span class="line">  <span class="class"><span class="keyword">type</span> <span class="title">typeMe</span> </span>= <span class="type">Int</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>Thoughts - </em> Frankly, its not really clear why Kotlin decided to omit having typed members, I could be missing something.. Never the less Kotlin usually takes the minimalistic and simplistic route, my guess is that if this is indeed useful, the door is open to add it later..</p>
+<h3 id="OMITTED-Path-dependent-types"><a href="#OMITTED-Path-dependent-types" class="headerlink" title="OMITTED - Path-dependent types"></a>OMITTED - Path-dependent types</h3><p><em>What is it?</em> Pointing to a class under another class in Java would mean a specific type (Parent.Child), well not so in Scala. Scala makes the nested class of two same class instances different, much like you would expect two members of two different instances of a single class. Confused? here is some code to explain this better</p>
+<p>Java:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Outer</span> </span>&#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Inner</span> </span>&#123;&#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">useInner</span><span class="params">(Outer.Inner inner)</span></span>&#123;...&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//.. somewhere in the code</span></span><br><span class="line">o1 = <span class="keyword">new</span> Outer()</span><br><span class="line">o2 = <span class="keyword">new</span> Outer()</span><br><span class="line">i1 = <span class="keyword">new</span> o1.inner()</span><br><span class="line">i2 = <span class="keyword">new</span> o2.inner()</span><br><span class="line"><span class="comment">// this would work fine</span></span><br><span class="line">o1.useInner(i2) <span class="comment">// works</span></span><br><span class="line">o2.useInner(i1) <span class="comment">// works</span></span><br></pre></td></tr></table></figure>
+<p>Scala:<br><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Outer</span> </span>&#123;</span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Inner</span> </span>&#123;&#125;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">useInner</span></span>(inner : <span class="type">Inner</span>)&#123;...&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//.. somewhere in the code..</span></span><br><span class="line"><span class="keyword">val</span> o1 = <span class="keyword">new</span> <span class="type">Outer</span></span><br><span class="line"><span class="keyword">val</span> o2 = <span class="keyword">new</span> <span class="type">Outer</span></span><br><span class="line"><span class="keyword">val</span> i1 = <span class="keyword">new</span> o1.<span class="type">Inner</span></span><br><span class="line"><span class="keyword">val</span> i2 = <span class="keyword">new</span> o2.<span class="type">Inner</span></span><br><span class="line">o1.useInner(i1) <span class="comment">// works fine</span></span><br><span class="line">o2.useInner(i2) <span class="comment">// works fine</span></span><br><span class="line">o1.useInner(i2) <span class="comment">// THROWS type mismatch exception!</span></span><br></pre></td></tr></table></figure></p>
+<p><em>Thoughts - </em> It makes some sense that the path to a type that can only exist in an instance is enforced as such.. It would be interesting to know why Kotlin decided to implement this feature in a similar way to Java (conservative?)</p>
+<h3 id="OMITTED-Existential-types"><a href="#OMITTED-Existential-types" class="headerlink" title="OMITTED - Existential types"></a>OMITTED - Existential types</h3><p><em>What is it?</em> This is yet another trade-off for Scala to be able to inter-op with Java<br>Let’s see an example:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Create a case class with generic type</span></span><br><span class="line"><span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">Z</span>[<span class="type">T</span>](<span class="params"> blah:<span class="type">T</span> </span>)</span></span><br><span class="line"><span class="comment">// create an instance and cast it to a type created with existential type annotation</span></span><br><span class="line"><span class="type">Seq</span>( <span class="type">Z</span>[<span class="type">Int</span>]( <span class="number">5</span> ), <span class="type">Z</span>[<span class="type">String</span>](<span class="string">"blah"</span>) ) : <span class="type">Seq</span>[<span class="type">Z</span>[<span class="type">X</span>] <span class="keyword">forSome</span> &#123; <span class="class"><span class="keyword">type</span> <span class="title">X</span> <span class="title">&gt;</span></span>: <span class="type">String</span> <span class="keyword">with</span> <span class="type">Int</span> &#125;]</span><br><span class="line">res1 = <span class="type">Seq</span>[<span class="type">Z</span>[_ &gt;: <span class="type">String</span> <span class="keyword">with</span> <span class="type">Int</span>]] = <span class="type">List</span>(<span class="type">Z</span>(<span class="number">5</span>), <span class="type">Z</span>(blah))</span><br></pre></td></tr></table></figure>
+<p><em>Thoughts - </em> Scala supports type variance to describe generic type bounds, Scala designer (Odersky) chose to add existential types support due to three main reasons <a href="http://www.artima.com/scalazine/articles/scalas_type_system.html" target="_blank" rel="external">link</a>: erasure, raw types (lack of generics) and Java’s “wildcard” types.</p>
+<p>Kotlin took the more “purist” approach (also known as reified types) of dropping support for erasure, raw types, wildcard types and finally existential types.</p>
+<h3 id="OMITTED-Complicated-logic-for-initialization-of-traits"><a href="#OMITTED-Complicated-logic-for-initialization-of-traits" class="headerlink" title="OMITTED - Complicated logic for initialization of traits"></a>OMITTED - Complicated logic for initialization of traits</h3><p><em>What is it?</em> Traits are similar to abstract classes, except that you may use several traits on the same class at the same time (like interfaces).</p>
+<p>In Scala, traits are constructed before the extended classes</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Averager</span> </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> first : <span class="type">Int</span></span><br><span class="line">  <span class="keyword">val</span> second : <span class="type">Int</span></span><br><span class="line">  <span class="keyword">val</span> avg : <span class="type">Int</span> = first / second</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// if we were to naively construct a class like so:</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Naive</span> <span class="keyword">extends</span> <span class="title">Averager</span> </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> first = <span class="number">20</span></span><br><span class="line">  <span class="keyword">val</span> second = <span class="number">10</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// create instance</span></span><br><span class="line">&gt; <span class="keyword">new</span> <span class="type">Naive</span>()</span><br><span class="line">java.lang.<span class="type">ArithmeticException</span>: / by zero</span><br><span class="line"><span class="comment">// what happened was that our val "avg" was computed at construction time before seeing the values we put in Naive</span></span><br></pre></td></tr></table></figure>
+<p>Alternatively the trait can be used with a pre-initialized anonymous class <code>val res = new { val first = 20 ; val second = 10 } with Averager</code>, also the val which depends on other vals (avg in our case) can be made “lazy” with the (obvious) lazy keyword <code>lazy val avg : Int = first / second</code>.</p>
+<p>As a side note, using def for “avg” could work, but it would mean evaluating whatever is defined under “avg” every-time this method is called.</p>
+<p><em>Thoughts - </em> Traits in Scala can have state which could be made tricky. If you read this blog post <a href="http://blog.jetbrains.com/kotlin/2011/08/multiple-inheritance-part-2-possible-directions/" target="_blank" rel="external">link</a> you will see Kotlin developers thoughts and a nice insight into what went into designing the inheritance in Kotlin. (don’t forget to read the comments!)</p>
+<h3 id="OMITTED-Custom-symbolic-operations"><a href="#OMITTED-Custom-symbolic-operations" class="headerlink" title="OMITTED - Custom symbolic operations"></a><em>OMITTED</em> - Custom symbolic operations</h3><p><em>What is it?</em> Scala does not have a built in handling of symbols (like =,+,/ etc), they are actually method calls, as you can have symbols used for method names.</p>
+<p><em>Thoughts - </em> This may sound useful at first, but can and (arguably) will create very confusing looking code, like we saw before in the <code>Lift</code> and <code>SBT</code> examples.</p>
+<h3 id="OMITTED-Built-in-XML"><a href="#OMITTED-Built-in-XML" class="headerlink" title="OMITTED - Built-in XML"></a><em>OMITTED</em> - Built-in XML</h3><p><em>What is it?</em> Exactly as it sounds, Scala built in XML native support, so you can do stuff like this</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> holdsXml = &lt;outer&gt;&lt;inner&gt;some text&lt;/inner&gt;&lt;/outer&gt;</span><br></pre></td></tr></table></figure>
+<p><em>Thoughts - </em> Having a built in support for XML as a language feature is interesting, and sometimes useful. An interview <a href="http://www.techworld.com.au/article/397692/a-z_programming_languages_from_pizza_scala/" target="_blank" rel="external">link</a> with Odersky reveals that he would consider removing the native XML support in Scala if had written Scala now.</p>
+<h2 id="Bottom-Line"><a href="#Bottom-Line" class="headerlink" title="Bottom Line"></a>Bottom Line</h2><p>Kotlin is an idiomatic language that draws from the many good features in todays leading languages, specifically from Scala which is a leading language on the JVM platform today. We’ve looked into omissions on Kotlin’s part versus Scala</p>
+<p>I’ve very much enjoyed writing this blog post and learning about the evolution that the design of Java/Scala/Kotlin languages, and the choices the respective authors made along the way.</p>
+<p>To get a better feeling of Kotlin I might pick it up for a small project, at which point I will surely blog about it some more..</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://uniformlyrandom.com/2012/11/14/making-the-case-for-kotlin/" data-id="cinw436c5000fz435y3t677zx" class="article-share-link">Share</a>
+      
+        <a href="http://uniformlyrandom.com/2012/11/14/making-the-case-for-kotlin/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/kotlin/">kotlin</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/scala/">scala</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-distributed-scheduled-queue-with-redis" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/10/20/distributed-scheduled-queue-with-redis/" class="article-date">
+  <time datetime="2012-10-19T22:00:00.000Z" itemprop="datePublished">Oct 20 2012</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/10/20/distributed-scheduled-queue-with-redis/">Distributed Scheduled Queue With Redis</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Unlike the classic FIFO queue, jobs are scheduled for execution in the future, possibly on a specific day, week, month year.. similar to “cron” in a Unix OS. Unlike the normal Unix “cron” implementation, we want it to be distributed, so that several machines(workers) can query and then execute these jobs.</p>
+<h3 id="Implementing"><a href="#Implementing" class="headerlink" title="Implementing"></a>Implementing</h3><ul>
+<li><em>Planning</em> - The standart Unix cron format is very flexible and has been time tested for describing schedules</li>
+<li><em>Managing/Coordinating</em> - The queues are stored in Redis Sorted Sets, Lua will be used for atomic execution</li>
+<li><em>Execution</em> - Getting the pieces together</li>
+</ul>
+<h4 id="Planning"><a href="#Planning" class="headerlink" title="Planning"></a>Planning</h4><p>“Unix Time” format, is the number of milliseconds since (<em>UTC</em>) 1 January 1970<br>Example (* the actual unix time number is in UTC, while the formatted date is localized)</p>
+<pre><code>1350745504313 == Sat Oct 20 2012 17:05:04 GMT+0200 (IST)
+</code></pre><p>Using this format will make it possible to slice the queue with specific point in time in mind.</p>
+<h4 id="Managing-Coordinating"><a href="#Managing-Coordinating" class="headerlink" title="Managing/Coordinating"></a>Managing/Coordinating</h4><p>Redis’st will be holding the job IDs as members scored by their corresponding execution times(in unix time format). <br></p>
+<p><img src="https://docs.google.com/drawings/pub?id=1Sc9DY0Ne4YZZeC8-R2WCTAQaJvnbM3pnpDPtQpSpEUU&amp;w=960&amp;h=359"></p>
+<p>Redis commands that will come in handy</p>
+<ul>
+<li>Scheduling job run: <em>ZADD cron:queue 1350745504313 1000</em></li>
+<li>Finding a job to run: <em>ZRANGEBYSCORE cron:queue 1350745504314 LIMIT 0 1</em></li>
+</ul>
+<h4 id="Execution"><a href="#Execution" class="headerlink" title="Execution"></a>Execution</h4><p>Without going into any platform specific implementation details, this is what the process looks like</p>
+<ol>
+<li>When a new schedule is added, jobs are created for upcoming execution times, which are calculated for the next two hours and added to our cron queue</li>
+<li>A special job is added to be run every hour, it will run over all the schedules, calculate and add their execution time to the scheduled queue, two hours into the future</li>
+<li>Workers will be polling the database every second to find jobs</li>
+<li>Once an entry comes up, it is removed from the queue and added to another Sorted Set queue, so we dont “forget” any jobs..</li>
+</ol>
+<p>As for items 3 and 4 above, it is not possible to implement this logic in the client, because for example when we find a job that needs to be executed, another worker might grab it, or worse they both “grabbed” it and are now working on the same job. To work around this, we need to write a little Lua script, since Lua scripts are executed serially, just like any other Redis command</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> currentTimeMS = KEYS[<span class="number">1</span>]</span><br><span class="line"><span class="keyword">local</span> workingQueue = <span class="string">"scheduler:working"</span></span><br><span class="line"><span class="keyword">local</span> scheduleQueue = <span class="string">"schedule"</span></span><br><span class="line"><span class="comment">-- for easier reading, epoch time is in milliseconds</span></span><br><span class="line"><span class="keyword">local</span> second = <span class="number">1000</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">foundJob</span><span class="params">(jobID)</span></span></span><br><span class="line">	<span class="comment">-- implement removing the job from all other queues</span></span><br><span class="line">	<span class="comment">-- implement updating job status where the actual job object is stored</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">findNextJob</span><span class="params">()</span></span></span><br><span class="line">	<span class="keyword">local</span> result</span><br><span class="line">	<span class="comment">-- check if there are any "stale" jobs</span></span><br><span class="line">	result = redis.call( <span class="string">'ZRANGEBYSCORE'</span>, workingQueue, <span class="number">0</span>, currentTimeMS<span class="number">-60</span>*second, <span class="string">'LIMIT'</span>,<span class="number">0</span>,<span class="number">1</span> )</span><br><span class="line">	<span class="keyword">if</span> result[<span class="number">1</span>] ~= <span class="keyword">nil</span> <span class="keyword">then</span> <span class="keyword">return</span> foundJob(result[<span class="number">1</span>]) <span class="keyword">end</span></span><br><span class="line">	<span class="comment">-- check the normal queue</span></span><br><span class="line">	result = redis.call( <span class="string">'ZRANGEBYSCORE'</span>, scheduleQueue, <span class="number">0</span>, currentTimeMS, <span class="string">'LIMIT'</span>,<span class="number">0</span>,<span class="number">1</span> )</span><br><span class="line">	<span class="keyword">if</span> result[<span class="number">1</span>] ~= <span class="keyword">nil</span> <span class="keyword">then</span> <span class="keyword">return</span> foundJob(result[<span class="number">1</span>]) <span class="keyword">end</span></span><br><span class="line">	<span class="comment">-- if we didnt find anything return nil</span></span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">nil</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> findNextJob()</span><br></pre></td></tr></table></figure>
+<p>And there you have it! a “Distributed scheduled queue” implemented on top of Redis.</p>
+<p>If you are going to implement this with node, I created a little cron format parser you can find here:<br><a href="https://github.com/romansky/JsCron" target="_blank" rel="external">JSCron</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://uniformlyrandom.com/2012/10/20/distributed-scheduled-queue-with-redis/" data-id="cinw436bk0003z435q3j8x9ub" class="article-share-link">Share</a>
+      
+        <a href="http://uniformlyrandom.com/2012/10/20/distributed-scheduled-queue-with-redis/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/distributed/">distributed</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/queue/">queue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/">redis</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-using-contractor-with-child-processes" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/10/06/using-contractor-with-child-processes/" class="article-date">
+  <time datetime="2012-10-05T22:00:00.000Z" itemprop="datePublished">Oct 6 2012</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/code/">code</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/10/06/using-contractor-with-child-processes/">Using Contractor With Child Processes</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><code>Contractor</code> is a factory of contracts, that helps with documenting our APIs.<br>The child_process facility built into node is using <code>EventEmitter</code> (v1), and does not support callbacks, so it is a great fit for <code>Contractor</code>!<br>Since I needed it for a distributed worker framework I am working on, I added a helper facility called “Lawyer”, it basically reads the contracts and routes them to the provided object.</p>
+<p><strong>Let us take the parent and child example code from Node’s official documentation (<a href="http://nodejs.org/api/child_process.html" target="_blank" rel="external">http://nodejs.org/api/child_process.html</a>) and see how simple it would be to add some documentation.</strong></p>
+<p>Parent</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> cp = <span class="built_in">require</span>(<span class="string">'child_process'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> n = cp.fork(__dirname + <span class="string">'/sub.js'</span>);</span><br><span class="line"></span><br><span class="line">n.on(<span class="string">'message'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">m</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'PARENT got message:'</span>, m);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">n.send(&#123; hello: <span class="string">'world'</span> &#125;);</span><br></pre></td></tr></table></figure>
+<p>Child</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">process.on(<span class="string">'message'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">m</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'CHILD got message:'</span>, m);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">process.send(&#123; foo: <span class="string">'bar'</span> &#125;);</span><br></pre></td></tr></table></figure>
+<p><strong>Node’s child_process facility provied us with a very basic means of communication, we simply call <code>n.send({any: &quot;thing&quot;})</code> and it automagically recieved by the forked child.  Let’s spice it up with a more RPC message passing style, with contracts and lawyers</strong></p>
+<p>contracts.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Contractor = <span class="built_in">require</span>(<span class="string">'contractor'</span>).Contractor;</span><br><span class="line">exports.ChildPublish = &#123;</span><br><span class="line">	<span class="string">"GreetingResponse"</span> : Contractor.Create(<span class="string">"GreetingResponse"</span>, Contractor.Required(<span class="string">"childs greeting response"</span>)).</span><br><span class="line">	<span class="string">"StatusResponse"</span> : Contractor.Create(<span class="string">"StatusResponse"</span>, Contractor.Required(<span class="string">"errors count"</span>), Contractor.Required(<span class="string">"number of completed jobs"</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">exports.ChildSubscribe = &#123;</span><br><span class="line">	<span class="string">"Greeting"</span>: Contractor.Create(<span class="string">"Greeting"</span>, Contractor.Required(<span class="string">"greeting word"</span>)),</span><br><span class="line">	<span class="string">"StatusQuery"</span> : Contractor.Create(<span class="string">"StatusQuery"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>parent.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> contracts = <span class="built_in">require</span>(<span class="string">'./contracts'</span>);</span><br><span class="line"><span class="keyword">var</span> Contractor = <span class="built_in">require</span>(<span class="string">'contractor'</span>).Contractor;</span><br><span class="line"><span class="keyword">var</span> Lawyer = <span class="built_in">require</span>(<span class="string">'contractor'</span>).Lawyer;</span><br><span class="line"><span class="keyword">var</span> cp = <span class="built_in">require</span>(<span class="string">'child_process'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> n = cp.fork(__dirname + <span class="string">'/sub.js'</span>);</span><br><span class="line"></span><br><span class="line">n.on(<span class="string">'message'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">m</span>) </span>&#123;</span><br><span class="line">	Lawyer.Read(m, &#123;</span><br><span class="line">		<span class="string">"GreetingResponse"</span> : <span class="function"><span class="keyword">function</span>(<span class="params">childResponse</span>)</span>&#123; <span class="built_in">console</span>.log(<span class="string">"child responded:"</span> + childResponse) &#125;,</span><br><span class="line">		<span class="string">"StatusResponse"</span> : <span class="function"><span class="keyword">function</span>(<span class="params">errorCount, numCompletedJobs</span>)</span>&#123; <span class="built_in">console</span>.log(<span class="string">"childs status, errors:"</span>+errorCount+<span class="string">" jobs done:"</span> + numCompletedJobs) &#125;</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;);</span><br><span class="line">n.send(contracts.ChildSubscribe.Greeting(<span class="string">"this is your father!"</span>));</span><br><span class="line">n.send(contracts.ChildSubscribe.StatusQuery());</span><br></pre></td></tr></table></figure>
+<p>sub.js</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> contracts = <span class="built_in">require</span>(<span class="string">'./contracts'</span>);</span><br><span class="line"><span class="keyword">var</span> Contractor = <span class="built_in">require</span>(<span class="string">'contractor'</span>).Contractor;</span><br><span class="line"><span class="keyword">var</span> Lawyer = <span class="built_in">require</span>(<span class="string">'contractor'</span>).Lawyer;</span><br><span class="line">process.on(<span class="string">'message'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">m</span>) </span>&#123;</span><br><span class="line">  Lawyer.Read(m, &#123;</span><br><span class="line">	<span class="string">"Greeting"</span> : <span class="function"><span class="keyword">function</span>(<span class="params">parentGreeting</span>)</span>&#123; process.send( contracts.ChildPublish.GreetingResponse(<span class="string">"Hi "</span>+parentGreeting+<span class="string">" can I have 10$?"</span>)) &#125;,</span><br><span class="line">	<span class="string">"StatusQuery"</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; process.send( contracts.ChildPublish.StatusResponse(<span class="number">0</span>, <span class="number">42</span>) ) &#125;</span><br><span class="line"> &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>If we were to run these</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#&gt; node parent.js</span><br><span class="line">child responded:Hi this is your father! can I have 10$?</span><br><span class="line">childs status, errors:0 jobs done:42</span><br></pre></td></tr></table></figure>
+<p>If you found Contractor / Lawyer interesting and/or useful, I would love to hear about it!</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://uniformlyrandom.com/2012/10/06/using-contractor-with-child-processes/" data-id="cinw436bx000dz43588rvpbx9" class="article-share-link">Share</a>
+      
+        <a href="http://uniformlyrandom.com/2012/10/06/using-contractor-with-child-processes/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/">nodejs</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-typing-in-javascript" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/09/22/typing-in-javascript/" class="article-date">
+  <time datetime="2012-09-21T21:00:00.000Z" itemprop="datePublished">Sep 22 2012</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/code/">code</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/09/22/typing-in-javascript/">Typing in JavaScript?</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>“Strong typing is for people with weak memories” - not sure who originally said that, but you have got to love the enthusiasm people have for dynamic languges. What is there not to love? powerful basic language constructs such as closure, prototypal inheritance, objects as first class citizens and anonymous functions, mainly, with which you can simulate almost anything static languages have to offer!</p>
+<p>Proof you say? no problem! here are few implementations that are worthy of noting:</p>
+<p><strong>Compile time type checking</strong> <a href="https://developers.google.com/closure/compiler/docs/js-for-compiler#types" target="_blank" rel="external">https://developers.google.com/closure/compiler/docs/js-for-compiler#types</a></p>
+<p><strong>Classic OO inheritance</strong> <a href="http://mootools.net/docs/core/Class/Class" target="_blank" rel="external">http://mootools.net/docs/core/Class/Class</a> &amp; <a href="http://coffeescript.org/#classes" target="_blank" rel="external">http://coffeescript.org/#classes</a></p>
+<p>(if you have other interesting examples let me know!)</p>
+<h3 id="Convention-over-configuration"><a href="#Convention-over-configuration" class="headerlink" title="Convention over configuration"></a>Convention over configuration</h3><p>The combination of CoffeeScript’s “classical” Class like system and Backbone.JS’s MVC style structure, give (IMHO) the best value in terms of complexity and pure fun writing apps. The challenges I come across while building large complex applications is the inherited nature of a true dynamic language  “type<em>lessness</em>“.</p>
+<p>The ugly monster, that is -a large application written in JavaScript, pushed me into struggling with these two main challenges:</p>
+<ul>
+<li>Many-to-many PubSub communication</li>
+<li>3rd party API’s</li>
+</ul>
+<h3 id="Many-to-many-PubSub-communication"><a href="#Many-to-many-PubSub-communication" class="headerlink" title="Many-to-many PubSub communication"></a>Many-to-many PubSub communication</h3><p>While the PubSub (also known as observer pattern) in JavaScript is a powerful tool to decouple your code, having multiple callers and listeners on the same event makes it really difficult to keep track of the actual common API for these events. Lats try to reflect on this while looking at an actual implementation.</p>
+<p>(please excuse my CoffeeScript)</p>
+<p><strong>Pub/Sub implementation in Backbone/Underscore.JS</strong></p>
+<figure class="highlight coffee"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">pubsub = _.extend &#123;&#125;, Backbone.Events</span><br><span class="line">pubsub.on &apos;myEvent&apos;, (param1, param2)-&gt;</span><br><span class="line">	x1 = param1 + param2</span><br><span class="line">	# do something with x1</span><br><span class="line"></span><br><span class="line"># in some other obscure location in the code</span><br><span class="line">pubsub.on &apos;myEvent&apos;, (param1)-&gt;</span><br><span class="line">	x2 = param1</span><br><span class="line">	# do something with x2</span><br><span class="line"></span><br><span class="line"># ...</span><br><span class="line">pubsub.trigger &apos;myEvent&apos;, 5</span><br><span class="line"># ...</span><br><span class="line">pubsub.trigger &apos;myEvent&apos;, 5,10</span><br></pre></td></tr></table></figure>
+<p>The “pubsub.on(event name, callback)” API is very common amongst different JS pub/sub frameworks. here’s an example of how a generic implementation might look like:</p>
+<figure class="highlight coffee"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">pubsub = &#123;</span><br><span class="line">	_listeners : &#123;&#125;</span><br><span class="line">	on : (channel, callback)-&gt;</span><br><span class="line">		@_listeners[ channel ] ?= []</span><br><span class="line">		@_listeners[ channel ].push callback</span><br><span class="line"></span><br><span class="line">	trigger : (channel, params...)-&gt;</span><br><span class="line">		@_listeners[ channel ]?.forEach (cb)-&gt; cb.apply(null, params)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">pubsub.on &apos;myEvent&apos;, (param1, param2)-&gt;</span><br><span class="line">	x1 = param1 + param2</span><br><span class="line">	# ... do something with x1..</span><br><span class="line"></span><br><span class="line"># in some other obscure location in the code</span><br><span class="line">pubsub.on &apos;myEvent&apos;, (param1)-&gt;</span><br><span class="line">	x2 = param1</span><br><span class="line">	# .... do something with x2</span><br><span class="line"></span><br><span class="line"># ...</span><br><span class="line">pubsub.trigger &apos;myEvent&apos;, 5</span><br><span class="line"># ...</span><br><span class="line">pubsub.trigger &apos;myEvent&apos;, 5,10</span><br></pre></td></tr></table></figure>
+<p>If your using the very popular Socket.IO library, for realtime client/server communication, you are using the exact same API, in which case it makes it even more complicated to keep track of, since the ambiguity is manifested on both the client and the server.</p>
+<h3 id="3rd-party-API’s"><a href="#3rd-party-API’s" class="headerlink" title="3rd party API’s"></a>3rd party API’s</h3><p>This is how a type related bug might look like in a dynamic language</p>
+<figure class="highlight coffee"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = &quot;42&quot; # returned from some API</span><br><span class="line">a == 42</span><br><span class="line">=&gt; false</span><br></pre></td></tr></table></figure>
+<h2 id="Enter-“Contractor”-amp-“Backbone-typed”"><a href="#Enter-“Contractor”-amp-“Backbone-typed”" class="headerlink" title="Enter “Contractor” &amp; “Backbone-typed”"></a>Enter “Contractor” &amp; “Backbone-typed”</h2><p>Contractor<br><a href="https://github.com/romansky/Contractor" target="_blank" rel="external">https://github.com/romansky/Contractor</a></p>
+<p>Backbone-typed<br><a href="https://github.com/romansky/backbone-typed" target="_blank" rel="external">https://github.com/romansky/backbone-typed</a></p>
+<p>I’m introducing a convention here, that helps keep the API consistent across the application, the approach here is to create wrapper functions, that are used as both the API documentation and run-time validation facility for required and optional arguments.</p>
+<p>Example:</p>
+<figure class="highlight coffee"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># declare the events and their APIs</span><br><span class="line">Messages = &#123;</span><br><span class="line">	LoginEvent : Contractor.Create( &quot;LoginEvent&quot;, Contractor.Required(&quot;user ID&quot;), Contractor.Optional(&quot;additional info&quot;) )</span><br><span class="line">	AppErrorEvent : Contractor.Create( &quot;AppErrorEvent&quot;, Contractor.Required(&quot;user ID&quot;), Contractor.Required(&quot;error description&quot;), Contractor.Optional(&quot;exception&quot;) )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"># register on event API</span><br><span class="line">pubsub.on Messages.LoginEvent, (userID, info)-&gt; #... do stuff here</span><br><span class="line">pubsub.on Messages.AppErrorEvent, (userID, description, exception)-&gt; #... do stuff here</span><br><span class="line"></span><br><span class="line"># trigger the event</span><br><span class="line">pubsub.apply(pubsub, Messages.LoginEvent(112233, &quot;mobile&quot;))</span><br><span class="line">pubsub.apply(pubsub, Messages.LoginEvent(112233))</span><br><span class="line"></span><br><span class="line">pubsub.apply(pubsub, Messages.AppErrorEvent(112233, &quot;user did not have access to resource&quot;, e))</span><br><span class="line">pubsub.apply(pubsub, Messages.AppErrorEvent(112233)) # since we did not provide the second required argument, this will log an error and return null</span><br></pre></td></tr></table></figure>
+<p>With NodeJS, I am using the same code on the front and back end, which makes it really easy to manage my Socket.IO communication.</p>
+<p>If you have been paying attention, there’s still the type issue. Since I work allot with Backbone, it made a lot of sense to write “backbone-typed” which adds optional typing to Backbone-Models.<br>Example:</p>
+<figure class="highlight coffee"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">Wearing = &#123;</span><br><span class="line">	&quot;bracelet&quot; : &quot;bracelet&quot;</span><br><span class="line">	&quot;watch&quot; : &quot;watch&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class User extends TypedModel</span><br><span class="line">	defaults: &#123;</span><br><span class="line">		name: null</span><br><span class="line">		email: null</span><br><span class="line">		lotteryNumber: null</span><br><span class="line">		isAwesome: null</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	types: &#123;</span><br><span class="line">		name: Types.String</span><br><span class="line">		email: Types.String</span><br><span class="line">		lotteryNumber: Types.Integer</span><br><span class="line">		isAwesome: Types.Boolean</span><br><span class="line">		wearing : Types.Enum(Wearing)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">user1 = new User(&#123;name: &quot;foo&quot;, email: &quot;foo@bar.com&quot;, lotteryNumber: 12345, isAwesome: true, wearing: Wearing.watch&#125;)</span><br><span class="line">user1.toJSON() #=&gt; &#123;name: &quot;foo&quot;, email: &quot;foo@bar.com&quot;, lotteryNumber: 12345, isAwesome: true, wearing: &quot;watch&quot;&#125; - nothing special going on here..</span><br><span class="line"></span><br><span class="line">user2 = new User(&#123;name: &quot;foo&quot;, email: &quot;foo@bar.com&quot;, lotteryNumber: &quot;54321&quot;, isAwesome: &quot;false&quot;, wearing: &quot;thong&quot;&#125;)</span><br><span class="line">user2.toJSON() #=&gt; &#123;name: &quot;bar&quot;, email: &quot;bar@foo.com&quot;, lotteryNumber: 54321, isAwesome: false, wearing: null&#125; - shit happens!</span><br><span class="line"></span><br><span class="line">user2.set(&#123;wearing: Wearing.bracelet&#125;)</span><br><span class="line"></span><br><span class="line">if user2.get(&quot;lotteryNumber&quot;) == 54321 and user2.get(&quot;wearing&quot;) == Wearing.bracelet then user2.set(&#123;isAwesome: &quot;true&quot;&#125;)</span><br><span class="line">user2.toJSON() #=&gt; &#123;name: &quot;bar&quot;, email: &quot;bar@foo.com&quot;, lotteryNumber: 54321, isAwesome: true, wearing: &quot;bracelet&quot;&#125; - awesome for sure..</span><br></pre></td></tr></table></figure>
+<p>If you want to know a little more about how these work, please visit the respective Git repositories, and let me know what you think!</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://uniformlyrandom.com/2012/09/22/typing-in-javascript/" data-id="cinw436bq0008z435hnr6np6a" class="article-share-link">Share</a>
+      
+        <a href="http://uniformlyrandom.com/2012/09/22/typing-in-javascript/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/">nodejs</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-hld-high-level-design" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/03/07/hld-high-level-design/" class="article-date">
+  <time datetime="2012-03-06T22:00:00.000Z" itemprop="datePublished">Mar 7 2012</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/design/">design</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/03/07/hld-high-level-design/">HLD High Level Design</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>This post is a follow-up on <a href="/code/2012/02/07/bootstrapping-a-new-project/">“Bootstrapping A New Project”</a></p>
+<h4 id="Previously…"><a href="#Previously…" class="headerlink" title="Previously…"></a>Previously…</h4><p>I’ve written about <a href="/code/2012/02/25/user-stories/">“User Stories”</a>, a tool that helps with expectation setting when working with (mostly) non-technical stakeholders.</p>
+<h4 id="Designing-Toward"><a href="#Designing-Toward" class="headerlink" title="Designing Toward"></a>Designing Toward</h4><ul>
+<li><strong>database</strong> (schema, tables, indexes..)</li>
+<li><strong>application layout</strong></li>
+<li><strong>deployment</strong></li>
+<li><strong>modules</strong></li>
+<li><strong>internal and external APIs</strong></li>
+<li><strong>application infra</strong> (frameworks, tools etc..)</li>
+</ul>
+<h4 id="Design-Tools-At-Your-Disposal"><a href="#Design-Tools-At-Your-Disposal" class="headerlink" title="Design Tools At Your Disposal"></a>Design Tools At Your Disposal</h4><ul>
+<li><strong>system architecture</strong> (<a href="http://www.lucidchart.com/publicSegments/view/4f6e3aaf-0798-4bce-97ca-386a0a5a8951/image.png" target="_blank" rel="external">example-Lucidchart</a>) - big pieces that make up the system</li>
+<li><strong>activity diagram</strong> (<a href="http://www.agilemodeling.com/artifacts/activityDiagram.htm" target="_blank" rel="external">more info</a>) - communication between components in the system</li>
+<li><strong>sequence diagram</strong> (<a href="http://www.lucidchart.com/publicSegments/view/4f6e3ae9-8544-46f2-a469-1daf0ac9c29f/image.png" target="_blank" rel="external">example-Lucidchart</a>, <a href="http://www.agilemodeling.com/artifacts/sequenceDiagram.htm" target="_blank" rel="external">more info</a>) - algorithms / processes high level implementation</li>
+<li><strong>state diagram</strong> (<a href="http://www.agilemodeling.com/artifacts/stateMachineDiagram.htm" target="_blank" rel="external">more info</a>) - state minded processes / algorithms</li>
+<li><strong>mock ups / wire frames</strong> (<a href="https://docs.google.com/drawings/pub?id=1y-GFJZeIcqSIk2hFcf9SWjWnpemvaBU-ffdPjv1u4hs&amp;w=960&amp;h=720" target="_blank" rel="external">example-Google Draw</a>) - for projects with GUIs</li>
+</ul>
+<h4 id="Audiences"><a href="#Audiences" class="headerlink" title="Audiences"></a>Audiences</h4><ul>
+<li><strong>System Architect</strong> - mostly interested in the software stack, deployment and the database design</li>
+<li><strong>Team Members</strong> - mostly interested in the more lower level stuff like modules and API’s</li>
+<li><strong>Other Teams</strong> - mostly interested in API’s</li>
+</ul>
+<p>Feedback on design is great for everyone involved, setup meetings with relevant parties to do DR (design review)</p>
+<h4 id="UML-and-Other-Vegetables"><a href="#UML-and-Other-Vegetables" class="headerlink" title="UML and Other Vegetables"></a>UML and Other Vegetables</h4><p>UML is complex, you don’t need to know it perfectly, start with what makes sense, and slowly pick up tutorials. Remember, its a visual tool that helps you communicate, not everyone who will look at your designs has the time (or cares for) to read throughly a book about UML and its specifics. In Einstein’s words “Make everything as simple as possible, but not simpler.” </p>
+<h4 id="Disclosure"><a href="#Disclosure" class="headerlink" title="Disclosure"></a>Disclosure</h4><p>Design does <em>not</em> last. Nobody is going to update the design as the system grows and evolves. Having said that, can still be used a good reference.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://uniformlyrandom.com/2012/03/07/hld-high-level-design/" data-id="cinw436bm0005z435rpjqx1y4" class="article-share-link">Share</a>
+      
+        <a href="http://uniformlyrandom.com/2012/03/07/hld-high-level-design/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/design/">design</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-user-stories" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/02/25/user-stories/" class="article-date">
+  <time datetime="2012-02-24T22:00:00.000Z" itemprop="datePublished">Feb 25 2012</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/design/">design</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/02/25/user-stories/">User Stories</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>This post is a follow-up on <a href="/code/2012/02/07/bootstrapping-a-new-project/">“Bootstrapping A New Project”</a></p>
+<p>“User Story” is an important communication tool, it is used between you (the developer) and who ever is making the requirements (the stakeholder).<br>A “contract” which (unlike one written by a lawyer) is clear, understood and agreed upon.<br>On our side (development) user stories embody a work unit that can be further broken down and estimated.</p>
+<p>Key value points:</p>
+<ul>
+<li>Language - its key that user stories are written in a language everyone can understand (stakeholders, developers etc..)</li>
+<li>Perspective - user stories need to be written from the perspective of the “feature user”, so they represent real world value</li>
+<li>Estimation - to help you get better and more precise estimation for the project overall</li>
+<li>Prioritization - what needs to be delivered soon/later</li>
+</ul>
+<h4 id="Lets-imagine-we-just-got-a-call-from-the-product-manager-where-he-is-telling-us-about-this-new-survey-tool"><a href="#Lets-imagine-we-just-got-a-call-from-the-product-manager-where-he-is-telling-us-about-this-new-survey-tool" class="headerlink" title="Lets imagine we just got a call from the product manager, where he is telling us about this new survey tool:"></a>Lets imagine we just got a call from the product manager, where he is telling us about this new survey tool:</h4><ol>
+<li>It needs to collect answers from users via a link sent to our users by e-mail</li>
+<li>It needs to be summarized and sent to … once a month on the 1st</li>
+<li>Managers need to be able to see past surveys</li>
+</ol>
+<p>Hmm.. OK, thats pretty clear, but suppose this can be written clearer, lats try using the following template: (not my invention;))<br><code>As a [role], I want [Requirement / Feature], So that [Justigication/ Reason]</code></p>
+<p>The requirements now look like this:</p>
+<ol>
+<li>As an end user, I will be able to follow a link I got via e-mail, so that I can fill a survey and express my opinion</li>
+<li>As a manager,  I will receive an e-mail with a digest of surveys, so that I can evaluate performance</li>
+<li>As a manager, I will be able to access old surveys, so that I can compare and evaluate performance over time</li>
+</ol>
+<p>By reading the above I can clearly understand the required functionality and the <strong>motivation</strong> behind writing it, this gives me a good <strong>starting point</strong>.<br>Since I am the one to implement this, I will need to provide estimates, so that product can plan ahead and communicate the product road map onward.<br>Unfortunately, “The Devil is In The Details” as they say, so giving estimates based on points 1,2,3 is still difficult.<br>Points 2 &amp; 3 are “huge” stories, also known as “epics”, we need to further break down these stories, while still using the same language and practices:</p>
+<ol>
+<li>As an end user, I will receive an email with a link as a result of some communication with a company, so that I can follow it and fill a survey</li>
+<li>As an end user, I get a set of questions to answer, so that my opinion is collected</li>
+<li>As a manager,  I will receive an e-mail with a digest of surveys, so that I can evaluate companies performance</li>
+<li>As a manager, I will have a survey management portal, so that I can overview previous results and compare to</li>
+<li>As a manager, I can select a specific survey, so that I can extract meaningful actionable information</li>
+</ol>
+<p>The functionality expected of deliverables from the points above is clear, and now I feel more comfortable estimating the time it will take me to complete each.<br>Along with the estimation, these can now be prioritized against each other and against other ongoing projects..</p>
+<h3 id="Summery"><a href="#Summery" class="headerlink" title="Summery"></a>Summery</h3><p>The beginning of a new project is the perfect time to introduce user stories, it will help with getting the conversation going, further clarifying the scope and requirements.<br>While the project scope might change, user stories are (optimally) modular, decoupled and encapsulated, this should help with managing changes and their effect on the overall project.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://uniformlyrandom.com/2012/02/25/user-stories/" data-id="cinw436bu000az435874itf07" class="article-share-link">Share</a>
+      
+        <a href="http://uniformlyrandom.com/2012/02/25/user-stories/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/design/">design</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-setting-up-intellij-for-android-and-scala" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/02/10/setting-up-intellij-for-android-and-scala/" class="article-date">
+  <time datetime="2012-02-09T22:00:00.000Z" itemprop="datePublished">Feb 10 2012</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/code/">code</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/02/10/setting-up-intellij-for-android-and-scala/">Setting Up IntelliJ For Android And Scala On Ubuntu</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h3><h4 id="Android-SDK"><a href="#Android-SDK" class="headerlink" title="Android SDK"></a>Android SDK</h4><ol>
+<li><p>get the latest <a href="https://developer.android.com/sdk/index.html" target="_blank" rel="external">SDK</a></p>
+</li>
+<li><p>after extracting, run <code>./tools/android</code></p>
+</li>
+<li><p>from the list select the Android version your afer, right now its <strong>Android 4.0.3 (API 15)</strong> (I also installed Android 2.3.3), click on <strong>Install packages</strong> to get the installation started</p>
+</li>
+<li><p>setup your env <code>echo &quot;export ANDROID_HOME=~/Applications/android-sdk-linux/&quot; &gt;&gt; ~/.bashrc</code></p>
+</li>
+<li><p>refresh your currect session <code>source ~/.bashrc</code></p>
+</li>
+</ol>
+<h4 id="Adding-SBT-support-to-IntelliJ"><a href="#Adding-SBT-support-to-IntelliJ" class="headerlink" title="Adding SBT support to IntelliJ"></a>Adding SBT support to IntelliJ</h4><ol>
+<li><p>open <strong>File</strong> &gt; <strong>Settings</strong> &gt; <strong>Plugin</strong></p>
+</li>
+<li><p>click on <strong>Browser repositories</strong></p>
+</li>
+<li><p>find <strong>SBT</strong>, right click and select <strong>Download and install</strong></p>
+</li>
+</ol>
+<h4 id="Setup-SBT"><a href="#Setup-SBT" class="headerlink" title="Setup SBT"></a>Setup <a href="https://github.com/harrah/xsbt/wiki/Getting-Started-Setup" target="_blank" rel="external">SBT</a></h4><ol>
+<li><p>create folder <code>~/bin/</code> (if you dont have <code>~/bin</code> in your PATH, then you can do this: <code>echo &quot;PATH=$PATH:~/bin&quot; &gt;&gt; ~/.bashrc</code> (refresh your currect session <code>source ~/.bashrc</code>)</p>
+</li>
+<li><p><a href="https://github.com/harrah/xsbt/wiki/Getting-Started-Setup" target="_blank" rel="external">download</a> <code>sbt-launcher.jar</code> and place it under <code>~/bin</code></p>
+</li>
+<li><p>create launcher: <code>touch ~/bin/sbt</code> and then <code>echo &#39;java -Xmx512M -jar `dirname $0`/sbt-launch.jar &quot;$@&quot;&#39; &gt;&gt; ~/bin/sbt</code></p>
+</li>
+<li><p>make it executable: <code>chmod u+x ~/bin/sbt</code></p>
+</li>
+</ol>
+<h4 id="Setup-android-plugin-for-Scala-support"><a href="#Setup-android-plugin-for-Scala-support" class="headerlink" title="Setup android-plugin for Scala support"></a>Setup <a href="https://github.com/jberkel/android-plugin/wiki/Getting-started" target="_blank" rel="external">android-plugin</a> for Scala support</h4><ol>
+<li><p>install giter8 <code>curl https://raw.github.com/n8han/conscript/master/setup.sh | sh</code></p>
+</li>
+<li><p>run it <code>~/bin/cs n8han/giter8</code></p>
+</li>
+</ol>
+<h4 id="Setup-sbt-idea"><a href="#Setup-sbt-idea" class="headerlink" title="Setup sbt-idea"></a>Setup <a href="https://github.com/mpeltonen/sbt-idea" target="_blank" rel="external">sbt-idea</a></h4><ol>
+<li><p>create folder (if it doesnt exist) <code>mkdir -p ~/.sbt/plugins/</code></p>
+</li>
+<li><p>create the file <code>~/.sbt/plugins/build.sbt</code> and add the following lines to it:</p>
+<pre><code>resolvers += &quot;sbt-idea-repo&quot; at &quot;http://mpeltonen.github.com/maven/&quot;
+addSbtPlugin(&quot;com.github.mpeltonen&quot; % &quot;sbt-idea&quot; % &quot;1.0.0&quot;)
+</code></pre></li>
+</ol>
+<h3 id="Finally-now-that-you-have-all-the-tools-you-need-proceed-to-creating-a-new-project"><a href="#Finally-now-that-you-have-all-the-tools-you-need-proceed-to-creating-a-new-project" class="headerlink" title="Finally, now that you have all the tools you need, proceed to creating a new project"></a>Finally, now that you have all the tools you need, proceed to creating a new project</h3><ol>
+<li><p>run the android plugin project setup tool: <code>~/bin/g8 jberkel/android-app</code>, follow the onscreen questions (or press return for defaults)<br>this will create the project folder and create the files needed to build an android project</p>
+</li>
+<li><p>open the new folder <code>cd &lt;project name&gt;</code></p>
+</li>
+<li><p>setup IntelliJ project support <code>sbt gen-idea</code></p>
+</li>
+<li><p>open the project in IntelliJ </p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://uniformlyrandom.com/2012/02/10/setting-up-intellij-for-android-and-scala/" data-id="cinw436bn0007z435h4s5u4hu" class="article-share-link">Share</a>
+      
+        <a href="http://uniformlyrandom.com/2012/02/10/setting-up-intellij-for-android-and-scala/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/intellij/">intellij</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/scala/">scala</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-bootstrapping-a-new-project" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2012/02/07/bootstrapping-a-new-project/" class="article-date">
+  <time datetime="2012-02-06T22:00:00.000Z" itemprop="datePublished">Feb 7 2012</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/design/">design</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/02/07/bootstrapping-a-new-project/">Bootstrapping A New Project</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="My-take-on-How-to-give-your-new-project-a-good-starting-point"><a href="#My-take-on-How-to-give-your-new-project-a-good-starting-point" class="headerlink" title="My take on: How to give your new project a good starting point"></a>My take on: How to give your new project a good starting point</h3><p>So, you have a new shiny project on your lap, so now what?<br>Today everyone is talking about “agile”, and how its better then the old “waterfall” methodology of doing things</p>
+<h4 id="Waterfall"><a href="#Waterfall" class="headerlink" title="Waterfall"></a>Waterfall</h4><p>The “Waterfall” approach is notorious in the software community, some highlights of why this is the case:</p>
+<ul>
+<li>It assumes that the initial requirements will not change</li>
+<li>There is only one version delivered to the stakeholders, at the end of the process</li>
+<li>All the planning and “thinking” happen only in the beginning of the project</li>
+</ul>
+<h4 id="Agile"><a href="#Agile" class="headerlink" title="Agile"></a>Agile</h4><p>Everyone likes “Agile”, its the “cool” way to manage a project, it asks for less paperwork, less work upfront, built from the ground up to support changes, to name a few conceptions about it.<br>While I call it “Agile” here, in reality it is a world of sub cultures, some of which are: “XP” (eXtreme Programming), “scrum”, “Kanban” to name a few.<br>The difference between specific cultures is not always clear, we don’t necessarily have to stick to one, we can mix and match, like I am doing here, thus from this point onward I will just ignorantly call it “Agile” with out specifying the specific methodology.<br>The main strengths going for the Agile methodology are</p>
+<ul>
+<li>Short upfront work phase (requirements, design ..)</li>
+<li>Iterations - project is broken down to deliverables, which is translated to real value delivered very early in the project lifetime</li>
+<li>Changes are welcome and expected and are introduced into following iterations (bugs found in previous deliverables, design “inadequacies”)</li>
+</ul>
+<p>Doing things in small pieces is great, just ask a WEB developer, how there’s nothing quite like writing a bit of code, refreshing the page and seeing the changes reflected, especially when working on a big complex project. This gives you a feeling of progress and achievement, even though the end goal is far far away..</p>
+<p>Some Agile approaches talk beyond writing business code and going into proactive bug searching using TDD (Test Driven Development), which turns out to be a good fit to the overall process as it secures quality of delivered pieces of logic.<br>BDD (Behavior Driven Development) is very similar to TDD, but instead of going after “test coverage” it takes on a higher level, business specification driven approach, where the business embodied user stories are part of the actual test suite.</p>
+<h4 id="My-recipe-for-success"><a href="#My-recipe-for-success" class="headerlink" title="My recipe for success"></a>My recipe for success</h4><ul>
+<li>User Stories</li>
+<li>Mock-ups (in the case of an app that has UI)</li>
+<li>HLD (High Level -system component- Design)</li>
+<li>Process Sequence diagram / Workflow diagram (possibly atop HLD)</li>
+</ul>
+<h4 id="Tooling"><a href="#Tooling" class="headerlink" title="Tooling"></a>Tooling</h4><p>Tools that keep me productive:</p>
+<ul>
+<li>Google Document (User Stories)</li>
+<li>Google Drawing (mockups, diagrams, HLD)</li>
+<li>Lucidchart (diagrams)</li>
+</ul>
+<p>In addition, I use a light weight web based project management tool as a central place to keep reference to important docs and user stories, and see my progress (and others working on the project). A great tool for the job is <a href="http://www.trello.com" target="_blank" rel="external">Trello.com</a> - which free and super simple!</p>
+<h4 id="REATED-UPDATES"><a href="#REATED-UPDATES" class="headerlink" title="REATED UPDATES:"></a>REATED UPDATES:</h4><p><a href="/code/2012/02/25/user-stories/">User Stories</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://uniformlyrandom.com/2012/02/07/bootstrapping-a-new-project/" data-id="cinw436bd0001z435008sgye5" class="article-share-link">Share</a>
+      
+        <a href="http://uniformlyrandom.com/2012/02/07/bootstrapping-a-new-project/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+  
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/code/">code</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/design/">design</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/design/">design</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/distributed/">distributed</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/intellij/">intellij</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/">javascript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kotlin/">kotlin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/queue/">queue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/scala/">scala</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/spray/">spray</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/testing/">testing</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/design/" style="font-size: 15px;">design</a> <a href="/tags/distributed/" style="font-size: 10px;">distributed</a> <a href="/tags/intellij/" style="font-size: 10px;">intellij</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/kotlin/" style="font-size: 10px;">kotlin</a> <a href="/tags/nodejs/" style="font-size: 15px;">nodejs</a> <a href="/tags/queue/" style="font-size: 10px;">queue</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/scala/" style="font-size: 20px;">scala</a> <a href="/tags/spray/" style="font-size: 10px;">spray</a> <a href="/tags/testing/" style="font-size: 10px;">testing</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/06/">June 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/11/">November 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10/">October 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/09/">September 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/03/">March 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02/">February 2012</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2014/06/14/Using-Spray-to-mock-3rd-party-APIs-in-your-tests/">Using Spray to mock 3rd party APIs in your tests</a>
+          </li>
+        
+          <li>
+            <a href="/2012/11/14/making-the-case-for-kotlin/">Making The Case For Kotlin</a>
+          </li>
+        
+          <li>
+            <a href="/2012/10/20/distributed-scheduled-queue-with-redis/">Distributed Scheduled Queue With Redis</a>
+          </li>
+        
+          <li>
+            <a href="/2012/10/06/using-contractor-with-child-processes/">Using Contractor With Child Processes</a>
+          </li>
+        
+          <li>
+            <a href="/2012/09/22/typing-in-javascript/">Typing in JavaScript?</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Roman Landenband<br>
+      Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'romanskys-blog';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//go.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+  </div>
+</body>
+</html>
